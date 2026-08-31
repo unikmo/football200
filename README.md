@@ -1,76 +1,100 @@
 # Sponsor a Young Fan
 
-**Turn unused stadium capacity into community sponsorship, fuller stands, and the next generation of supporters.**
+**Turn unused matchday capacity into community sponsorship, stronger matchdays, and the next generation of supporters.**
 
-Sponsor a Young Fan is a club-first community sponsorship model for lower-league and community sports.
+Sponsor a Young Fan is a club-first community sponsorship model for lower-league and community football.
 
-Local businesses sponsor a young fan and their family for **£/€/$99 per season**. The participating club contributes controlled access to otherwise-unused or low-demand match inventory. Sponsor a Young Fan operates the programme layer: sponsor onboarding, family applications, sponsor recognition, certificates, season pages, and local press outreach.
+Local businesses sponsor a young fan and their family for **£/€/$99 per season**. The participating club contributes available matchday capacity. Sponsor a Young Fan acts as the independent programme layer: sponsor onboarding, payments, family applications, matching, sponsor recognition, certificates, season pages, press outreach, and standardized programme administration.
+
+The model is deliberately lean. It should reduce work for clubs rather than create another administrative system.
 
 ## Core model
 
-**Local business → £/€/$99 sponsorship → Community Fan Pass → local family → fuller stands + new supporters**
+**Local business → £/€/$99 sponsorship → Community Fan Pass → local family → stronger matchdays + new supporters**
 
-The sponsor is not purchasing conventional retail season tickets. The club contributes controlled, perishable inventory that may otherwise go unused.
+The sponsor is not purchasing conventional retail season tickets. The club contributes controlled access to capacity that would otherwise often go unused or underused.
 
-### Programme cap
+The model is not limited to enclosed professional stadiums. A club can qualify if it can:
+
+- accommodate additional families on matchday;
+- reliably identify/check in Community Fan households;
+- control or authorize the relevant access or programme participation; and
+- run regular home fixtures with a meaningful local community around the club.
+
+For enclosed/ticketed grounds, the pass can function through normal ticket access. For open or lightly controlled grounds, families can check in at a clubhouse, kiosk, or designated Community Fan point and receive the club's chosen matchday identifier, such as a wristband.
+
+If normal match entry is already free, the sponsor supports the **Community Fan programme and matchday experience**, not a fictitious free ticket.
+
+## Programme cap
 
 - Maximum **200 sponsored families / Community Fan Passes per club per season**.
-- The cap is intentionally small enough to protect normal ticket economics.
-- Clubs retain control over eligible fixtures and match-level availability.
+- Clubs may pilot with fewer and scale toward 200.
+- The cap is intentionally limited to protect normal ticket economics and keep the programme operationally manageable.
+- Clubs retain control over eligible fixtures, access arrangements, and match-level capacity.
 
-### Community Fan Pass
+### Programme identity
 
-The standard pass supports **up to three household members per eligible match**, with at least one participating child:
+**200 Young Fans. 200 Local Champions. One Club.**
 
-- 1 child + up to 2 adults, or
+## Community Fan Pass
+
+The standard pass supports **up to three members of the participating household per eligible match**, with at least one participating child.
+
+Examples:
+
+- 1 child + 1 adult;
+- 1 child + up to 2 adults; or
 - 2 children + 1 adult.
 
 The household may vary the configuration from match to match within the three-person limit.
 
-A fourth household member may be added for **£/€/$25 per season** as a Family Plus extension, subject to club approval and capacity rules.
+A fourth household member may be added through the current **Family Plus** concept for **£/€/$25 per season**, subject to club approval and capacity rules.
+
+A Community Fan Pass is controlled programme access, not three unrestricted conventional season tickets.
 
 ## Sponsor proposition
 
-### Sponsor a Young Fan — £/€/$99 per season
+# Sponsor a Young Fan — £/€/$99 per family per season
 
-A local business:
+One sponsorship supports one Community Fan family for one season.
 
-- sponsors one Community Fan Pass for one season;
-- becomes an official **Community Champion**;
-- receives a personalized digital Community Champion certificate;
-- is listed by name, with a link, on the relevant club/season page on Sponsor a Young Fan;
-- receives recognition through the participating club;
-- is included in local press outreach around the programme;
-- may receive an approved family matchday photo/story for use on its own website or social channels where the appropriate family/guardian consent has been obtained.
+The sponsor receives:
+
+- official **Community Champion** status;
+- a personalized digital Community Champion certificate;
+- its business name and website link on the relevant Sponsor a Young Fan club/season page;
+- recognition through the participating club;
+- inclusion in local press outreach around the programme; and
+- where separately and validly consented, an approved family matchday photo/story asset for sponsor website or social use.
 
 Optional paid add-ons may include:
 
 - professionally printed certificate;
-- framed Community Champion certificate;
+- framed Community Champion certificate; and
 - shipping where applicable.
 
-The offer is deliberately simple. The sponsor is primarily buying **visible local impact and recognition**, not a complex analytics package.
+The sponsor offer should remain simple. The value is **visible local impact and recognition**, not dashboards, weekly statistics, or a complicated ROI package.
 
-## Club proposition
+### Sponsoring more than one family
 
-A participating club contributes controlled Community Fan inventory and receives new sponsorship revenue without paying an upfront platform fee in the initial model.
+Do not create unnecessary Bronze/Silver/Gold complexity.
 
-Illustrative split per £/€/$99 sponsorship:
+A business simply chooses how many families it wants to sponsor:
 
-- **70** to the club;
-- **29** to Sponsor a Young Fan.
+- 1 family = 99
+- 3 families = 297
+- 5 families = 495
+- 10 families = 990
 
-At the 200-family cap, that represents **19,800 sponsorship GMV per club per season**, of which an illustrative **14,000** goes to the club and **5,800** to the platform before payment-processing costs and other agreed expenses.
+No discount is required in the lean model.
 
-These are scenario economics, not forecasts.
+## Sponsor matching
 
-The club may additionally benefit from food and beverage sales, merchandise, atmosphere, future ticket buyers, future season-ticket holders, and stronger local business relationships. These secondary benefits must be measured rather than guaranteed.
-
-## Two sponsorship modes
+Sponsors have two simple options:
 
 ### 1. Community Match
 
-The sponsor funds a place in the general pool and the programme allocates it to an eligible family.
+The sponsor funds a place in the general pool and the programme matches it to an eligible family.
 
 ### 2. Nominate a Family
 
@@ -80,21 +104,25 @@ The nominated family must still:
 
 - meet the programme's eligibility rules;
 - agree to participate;
-- have an available programme place;
+- have an available programme place; and
 - accept the current season's terms.
 
-A sponsor cannot purchase guaranteed renewal or bypass core safeguarding/eligibility requirements.
+A sponsor cannot buy guaranteed renewal, bypass safeguarding/eligibility rules, or gain automatic access to private child/family data.
 
-## Family selection
+## Family application and selection
 
-When eligible applications exceed the club's available places, the default model is:
+Families **apply** for a Community Fan Pass. The programme should not frame access as a contest based on hardship or ask children to write emotional essays.
 
-1. objective eligibility screening;
-2. transparent priority bands where appropriate;
-3. random selection / lottery within those bands;
-4. a reserve list for unfilled or surrendered places.
+Application itself is treated as a strong signal that the household wants to participate.
 
-The programme should not ask children to compete by writing emotional essays or by demonstrating hardship publicly.
+When eligible applications exceed available places, the current model is:
+
+1. simple objective eligibility screening;
+2. transparent priority bands only where needed;
+3. random selection / lottery within those bands; and
+4. a reserve list for places that are declined or become available.
+
+The programme should avoid unnecessary welfare-style bureaucracy.
 
 ## Renewal
 
@@ -105,34 +133,130 @@ Every season starts again.
 - Returning families may apply again.
 - New families may apply.
 - Previous participation does not guarantee selection.
-- Application is treated as evidence that the family intends to participate; the programme should not create unnecessary weekly attendance policing or bureaucracy.
+- The programme should not operate weekly attendance policing or turn family participation into a performance score.
 
-Clubs may still use ordinary match-claim deadlines where needed to manage inventory, but those claims should not become a complicated family performance score.
+Clubs may still use simple match-claim or check-in mechanics where operationally useful, but these are for capacity management rather than renewal scoring.
+
+## Club proposition
+
+A participating club contributes available Community Fan capacity and receives sponsorship revenue without paying an upfront platform fee in the initial model.
+
+### Current illustrative commercial model
+
+**70% club / 30% Sponsor a Young Fan**
+
+The exact legal, VAT, invoicing, payment-processing, and contractual treatment must be validated for each launch market before this is treated as a final commercial contract structure.
+
+The club may additionally benefit from:
+
+- increased family attendance;
+- food and beverage sales;
+- merchandise;
+- stronger atmosphere;
+- future paying supporters;
+- future season-ticket holders;
+- stronger relationships with local businesses; and
+- increased community relevance.
+
+These secondary benefits are hypotheses to be measured in pilots, not guarantees.
 
 ## Club recognition requirement
 
 For the duration of the season, a participating club must visibly recognize the programme by either:
 
 - linking to its Sponsor a Young Fan club/season Community Champions page; or
-- publishing the participating company names on its own site;
+- displaying the participating company names on its own website;
 - ideally both.
+
+This creates visible third-party recognition for the businesses supporting the programme.
 
 ## Local press
 
-Sponsor a Young Fan will proactively inform relevant local press, community publications, local radio, and sports media about programme launches and milestones.
+Sponsor a Young Fan proactively informs relevant local newspapers, community publications, radio, and sports media about programme launches and meaningful milestones.
 
-The promise is **press outreach**, not guaranteed editorial coverage.
+The promise is **press outreach, not guaranteed editorial coverage**.
+
+The story is the community action itself:
+
+> Local businesses are helping put the next generation of supporters into their local club's matchdays.
+
+## Optional Matchday Experience Toolkit
+
+The £/€/$99 sponsorship does **not** require clubs to become event operators.
+
+Sponsor a Young Fan can provide an optional menu of low-cost, high-engagement matchday activities clubs can activate when suitable, for example:
+
+- sack races;
+- can tossing;
+- tug-of-war;
+- football skills challenges;
+- player meet-and-greets;
+- halftime challenges;
+- free sponsor-supported community prize draws, subject to applicable law; and
+- occasional post-match pitch activities where the club permits them.
+
+### Principle
+
+**Games over infrastructure.**
+
+Prefer flexible, inexpensive activities over permanent playground construction or infrastructure that creates unnecessary cost, maintenance, safety, or regulatory burden.
+
+## Optional Module: 2 Hours for Your Club
+
+A second, optional module can help clubs recruit micro-volunteers without asking people for open-ended commitments.
+
+### 2 Hours for Your Club
+
+**One task. One match. Two hours. Done.**
+
+Examples:
+
+- Community Fan check-in;
+- game/activity host;
+- grill helper;
+- setup or cleanup;
+- smartphone content creator;
+- matchday family host.
+
+The intention is to reduce the psychological barrier created by permanent volunteer commitments.
+
+This module supports the Community Fan programme but is **not required** for the core sponsorship model to operate.
+
+## What Sponsor a Young Fan handles
+
+The platform should remove as much programme administration from the club as practical, including:
+
+- sponsor onboarding;
+- payment workflow;
+- family applications;
+- sponsor/family matching;
+- Community Champion records;
+- digital certificates;
+- club/season sponsor pages;
+- standardized programme communication;
+- press materials and outreach; and
+- repeatable programme operations.
+
+Sponsor a Young Fan should **not claim to remove tax obligations or tax bureaucracy**. Sponsorship, VAT, accounting, privacy, safeguarding, prize-draw rules, and related legal treatment must be handled correctly for each market.
+
+## Family photo / sponsor-use asset
+
+A sponsor may receive an approved family matchday photo/story for its website or social channels **only where the necessary family/guardian consent and usage rights have been validly obtained**.
+
+The experience should feel celebratory rather than transactional or exploitative.
+
+The exact implementation for identifiable child imagery, sponsor marketing use, duration, withdrawal, safeguarding, and privacy rights **requires qualified legal review before launch**.
 
 ## Core messaging
 
 ### Master proposition
-**Turn empty seats into lifelong supporters.**
+**Turn unused matchday capacity into lifelong supporters.**
 
 ### For businesses
 **Put the next generation in the stands.**
 
 ### For clubs
-**Turn unused capacity into community sponsorship revenue.**
+**Turn unused matchday capacity into community sponsorship revenue.**
 
 ### For families
 **Your season starts here.**
@@ -142,8 +266,14 @@ The promise is **press outreach**, not guaranteed editorial coverage.
 
 ## Strategic position
 
-The long-term product is not simply a sponsorship webpage. It is an operating layer that converts controlled unused sports inventory into community sponsorship value.
+The long-term product is not simply a sponsorship webpage and not merely a ticket-distribution service.
 
-Football is the entry market, but the model may later extend to other sports where there is perishable capacity, local community demand, and local businesses seeking visible community involvement.
+It is an operating layer that converts **unused matchday capacity into sponsored community participation**.
+
+Football is the entry market. The same model may later extend to other sports where clubs or venues have spare capacity, local communities, and businesses looking for affordable, visible local impact.
+
+The core product should remain deliberately simple:
+
+> **Business sponsors. Club contributes capacity. Family participates. We run the programme.**
 
 See [`PRODUCT_CONCEPT.md`](PRODUCT_CONCEPT.md) for the detailed operating concept and [`CANONICAL_TRUTH.md`](CANONICAL_TRUTH.md) for current locked decisions.
