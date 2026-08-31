@@ -8,49 +8,54 @@ This file records the current authoritative project decisions. Future product, d
 |---|---|---|
 | Project name | Sponsor a Young Fan | LOCKED |
 | Repository | `unikmo/football200` | LOCKED |
-| Current stage | Concept / validation | LOCKED |
+| Launch market | Germany | LOCKED |
+| Current stage | Approved visual direction → non-production live demo | LOCKED |
 | Initial category | Lower-league/community football | LOCKED |
-| Primary model | Club-first community sponsorship using controlled unused stadium inventory | LOCKED |
-| Core promise | Turn empty seats into lifelong supporters | LOCKED |
+| Primary model | Club-first community sponsorship using available/underused matchday capacity | LOCKED |
+| Core promise | Turn unused matchday capacity into lifelong supporters | LOCKED |
 
 ## Programme economics
 
 | Field | Canonical value | Status |
 |---|---|---|
-| Standard sponsor price | £/€/$99 per sponsored family per season | LOCKED |
+| Standard sponsor price | €99 per sponsored family per season | LOCKED |
+| Volume discounting | None; €99 unit remains intact | LOCKED |
 | Club programme cap | Maximum 200 sponsored families / Community Fan Passes per club per season | LOCKED |
-| Illustrative core split | 70 to club / 29 to Sponsor a Young Fan | CURRENT MODEL |
-| Maximum sponsorship GMV at 200 | 19,800 per club/season | DERIVED |
-| Illustrative club share at 200 | 14,000 | DERIVED |
-| Illustrative platform share at 200 | 5,800 before processing/other agreed costs | DERIVED |
+| Current illustrative split | 70% club / 30% Sponsor a Young Fan | CURRENT MODEL |
 | Club upfront platform fee | None in initial model | LOCKED |
+| Family Plus | €25 per season for a fourth household member | CURRENT MODEL |
 
-The 70/29 allocation is the current commercial model, but remains subject to real-club validation before being treated as a permanent contract term.
+The 70/30 allocation remains subject to German VAT, invoicing, payment-processing, legal and contractual validation before launch.
 
 ## Community Fan Pass
 
 | Field | Canonical value | Status |
 |---|---|---|
 | Standard household capacity | Up to 3 household members per eligible match | LOCKED |
-| Child requirement | At least 1 participating child must attend | LOCKED |
+| Child requirement | At least 1 participating child | LOCKED |
 | Valid configuration | 1 child + up to 2 adults OR 2 children + 1 adult | LOCKED |
 | Configuration flexibility | Household may vary the 3-person composition between eligible matches | LOCKED |
-| Fourth household member | Family Plus extension at £/€/$25 per season | CURRENT MODEL |
+| Fourth household member | Family Plus at €25/season | CURRENT MODEL |
 | Nature of pass | Controlled Community Fan access, not conventional retail season tickets | LOCKED |
 
-## Inventory policy
+## Venue / inventory qualification
 
-| Field | Canonical value | Status |
-|---|---|---|
-| Inventory source | Predominantly unused / low-demand match capacity | LOCKED |
-| Club control | Club retains match-level capacity and eligibility control | LOCKED |
-| High-demand matches | May be excluded by club | LOCKED |
-| Match claims | Allowed where operationally useful | LOCKED |
-| Claims used as renewal score | No | LOCKED |
+A club does not need a gated professional stadium.
+
+A club can qualify if it can:
+
+- accommodate additional families on matchday;
+- reliably identify/check in Community Fan households;
+- control or authorize relevant access/programme participation; and
+- run regular home fixtures with a meaningful local community.
+
+Open/lightly controlled grounds may use clubhouse, kiosk or designated Community Fan check-in. If ordinary entry is already free, the sponsorship supports the Community Fan programme/matchday experience rather than a fictitious free ticket.
+
+**Status: LOCKED**
 
 ## Sponsor proposition
 
-The standard £/€/$99 sponsor receives:
+The €99 sponsor receives:
 
 - one sponsored Community Fan Pass for the season;
 - Community Champion designation;
@@ -58,27 +63,36 @@ The standard £/€/$99 sponsor receives:
 - business name and website link on Sponsor a Young Fan's relevant club/season page;
 - recognition through the participating club;
 - inclusion in local press outreach;
-- an approved family matchday photo/story asset for sponsor website/social use where the required family/guardian consent and usage rights have been validly obtained.
+- an approved family matchday photo/story asset only where the required family/guardian consent and usage rights have been validly obtained.
 
-### Physical certificate
+Optional paid add-ons:
 
-| Field | Canonical value | Status |
-|---|---|---|
-| Digital certificate | Included | LOCKED |
-| Printed certificate | Optional paid add-on | LOCKED |
-| Framed certificate | Optional paid add-on | LOCKED |
-| Physical add-on price | Not yet fixed | OPEN |
+- printed certificate;
+- framed certificate;
+- shipping where applicable.
+
+## Sponsor der Woche
+
+`Sponsor der Woche` is a separate optional paid visibility feature.
+
+Potential inclusions:
+
+- prominent placement on the Sponsor page;
+- homepage feature for the week;
+- social-media feature;
+- short local sponsor story.
+
+It does not change family selection, programme access or the value of the €99 base sponsorship.
+
+**Status: CURRENT MODEL / PRICE OPEN**
 
 ## Club recognition
 
-Participating clubs must visibly recognize the programme for the season.
+Participating clubs must visibly recognize the programme for the season by either:
 
-Minimum acceptable implementation:
-
-- club links to the Sponsor a Young Fan club/season Community Champions page; OR
-- club displays the participating company names itself.
-
-Preferred implementation: both.
+- linking to the Sponsor a Young Fan club/season Community Champions page; OR
+- publishing participating company names on the club website;
+- ideally both.
 
 **Status: LOCKED**
 
@@ -97,9 +111,9 @@ Sponsors have two modes:
 1. **Community Match** — sponsor funds a place in the general pool.
 2. **Nominate a Family** — sponsor nominates a specific eligible household.
 
-A nominated household must still satisfy the programme's eligibility, availability, safeguarding, and season rules.
+A nominated household must still satisfy programme eligibility, availability, safeguarding and season rules.
 
-A sponsor does not gain ownership/control of the child/family relationship or automatic access to private child/family data.
+A sponsor does not gain ownership/control of the child/family relationship or automatic access to private family data.
 
 **Status: LOCKED**
 
@@ -107,13 +121,12 @@ A sponsor does not gain ownership/control of the child/family relationship or au
 
 | Field | Canonical value | Status |
 |---|---|---|
-| Application assumption | If a family applies, assume they want to participate | LOCKED |
+| Application assumption | If a family applies, assume it wants to participate | LOCKED |
 | Weekly attendance monitoring | No | LOCKED |
 | Attendance bureaucracy | Keep minimal | LOCKED |
 | Emotional child essays | No | LOCKED |
 | Public hardship storytelling | No | LOCKED |
-| When demand exceeds supply | Eligibility → transparent priority if needed → lottery/random selection → reserve list | CURRENT MODEL |
-| Exact priority allocation percentages | Not fixed | OPEN |
+| When demand exceeds supply | Eligibility → transparent priority if needed → random selection/lottery → reserve list | CURRENT MODEL |
 
 ## Renewal
 
@@ -126,21 +139,62 @@ A sponsor does not gain ownership/control of the child/family relationship or au
 | Every season starts from scratch | Yes | LOCKED |
 | Automatic sponsor renewal | No | LOCKED |
 
-Previous participation does not create a guaranteed place in a later season.
+## Community Fan Reinvestment Commitment
+
+Participating clubs commit to reinvesting **at least 30% of their Sponsor a Young Fan programme proceeds** into improvements that directly enhance the matchday experience for children and families.
+
+Examples:
+
+- games / football activities;
+- family areas;
+- child-friendly food/drink offers;
+- weather protection;
+- matchday materials and small prizes;
+- player meet-and-greets;
+- halftime and post-match experiences.
+
+Guiding principle:
+
+> **We bring the families. The club makes them want to come back.**
+
+**Status: LOCKED**
+
+## Matchday Experience Playbook
+
+Activities are optional suggestions, not mandatory programme conditions.
+
+Current ideas include:
+
+- **Halbzeit-Verlosung** — genuinely free sponsor-supported community draw, subject to German legal review;
+- **Beat the Keeper** — optional penalties against an appropriate reserve/substitute goalkeeper where the club chooses;
+- meet-and-greets;
+- football skills challenges;
+- sack races, can tossing, tug-of-war;
+- optional post-match pitch activities.
+
+Principle: **Games over infrastructure.**
+
+Any activity remains subject to club safety, safeguarding, competition, pitch and operational rules.
+
+## Volunteer recruitment / RunYourEvent
+
+Volunteer recruitment does **not** belong inside Sponsor a Young Fan.
+
+It is handled through the separate `RunYourEvent` project/service.
+
+Current RunYourEvent club concept:
+
+- €200 per club/year for self-service volunteer recruitment/coordination;
+- micro-volunteer shifts such as two-hour matchday assignments;
+- optional insurance/coverage add-on (`RunYourEvent Safe`) after checking whether the club's existing German sports/volunteer insurance already provides sufficient cover.
+
+**Status: LOCKED PRODUCT SEPARATION / INSURANCE DETAILS OPEN**
 
 ## Family photo / sponsor-use asset
 
-### Product intent
+The programme should create a natural, celebratory mechanism for a family/guardian to authorize an approved matchday photo/story that the sponsor can use on its homepage/social channels.
 
-The programme should create a natural, positive mechanism for a family/guardian to authorize an approved matchday photo/story that the sponsor can use on its homepage or social channels.
-
-The experience must not feel awkward, exploitative, or as though the family is being made to repay the sponsor through publicity.
-
-### Legal status
-
-The exact consent mechanism and whether any image-use consent may be a condition of participation are **not yet legally locked**.
-
-Identifiable child imagery, sponsor marketing use, privacy, safeguarding, parental/guardian authority, usage duration, withdrawal rights, and geographic/channel rights require launch-market legal review.
+The exact consent mechanism, identifiable child imagery use, sponsor marketing rights, duration, withdrawal, safeguarding, privacy and geographic/channel rights require launch-market legal review.
 
 **REQUIRES QUALIFIED LEGAL REVIEW before implementation.**
 
@@ -156,20 +210,32 @@ Do not make the core product depend on:
 - complicated ROI reporting;
 - weekly statistics.
 
-A simple end-of-season acknowledgement or basic participation fact may be used if useful, but statistics are not the core sponsor value.
+**Status: LOCKED**
+
+## Live-demo implementation boundary
+
+The current demo is deliberately non-production:
+
+- no real payments;
+- no persistent applications;
+- no real family data;
+- no legal consent workflow;
+- no real insurance promises;
+- `noindex` / `nofollow` is required;
+- production requires separate explicit approval after live-demo approval and QA.
 
 **Status: LOCKED**
 
 ## Positioning
 
 ### Master
-**Turn empty seats into lifelong supporters.**
+**Turn unused matchday capacity into lifelong supporters.**
 
 ### Sponsor
 **Put the next generation in the stands.**
 
 ### Club
-**Turn unused capacity into community sponsorship revenue.**
+**Turn unused matchday capacity into community sponsorship revenue.**
 
 ### Family
 **Your season starts here.**
@@ -178,41 +244,4 @@ A simple end-of-season acknowledgement or basic participation fact may be used i
 **200 Young Fans. 200 Local Champions. One Club.**
 
 ### Simple model statement
-**Local businesses sponsor. Clubs contribute unused capacity. Families fill the stands. Communities get stronger.**
-
-## Strategic boundaries
-
-Sponsor a Young Fan is not currently intended to be:
-
-- a generic sponsorship marketplace;
-- a mass free-ticket giveaway;
-- a permanent entitlement programme;
-- a welfare scoring platform;
-- a weekly attendance surveillance programme;
-- an analytics-heavy sponsorship SaaS product;
-- a replacement for the club's normal ticketing system.
-
-## Open validation questions
-
-These remain to be proven through the first club pilot:
-
-- sponsor conversion rate at 99;
-- sponsor acquisition cost;
-- club acceptance of the 70/29 split;
-- club acceptance of the 200-family maximum;
-- appropriate pilot size before scaling to 200;
-- demand for Family Plus at 25;
-- sponsor appetite for digital vs printed/framed certificates;
-- sponsor value perception of the family photo/story;
-- family application volume;
-- best oversubscription priority policy;
-- administrative workload for clubs;
-- match-level capacity impact;
-- sponsor willingness to sponsor again next season;
-- club willingness to repeat the programme;
-- measurable secondary matchday spend;
-- legal/privacy/safeguarding implementation for family imagery.
-
-## Change-control rule
-
-Any future change to a LOCKED value should be explicitly recorded as a new decision rather than silently changed in downstream design or code.
+**Business sponsors. Club contributes capacity. Family participates. We run the programme.**
