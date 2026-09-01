@@ -19,7 +19,7 @@ This file records the current authoritative project decisions. Future product, d
 | Field | Canonical value | Status |
 |---|---|---|
 | Standard sponsor price | €99 per sponsored child/programme place per season | LOCKED |
-| Sponsoring levels | 1 child = €99; 3 = €297; 5 = €495; 10 = €990 | LOCKED |
+| Sponsoring levels | Fan-Pate = 1 child / €99; Vereinsfreund = 3 / €297; Jugendförderer = 5 / €495; Stadtpartner = 10 / €990 | LOCKED |
 | Volume discounting | None; €99 unit remains intact | LOCKED |
 | Club programme cap | Maximum 200 sponsored Community Fan Passes per club per season | LOCKED |
 | Current illustrative split | 70% club / 30% Sponsor a Young Fan | CURRENT MODEL |
@@ -27,6 +27,17 @@ This file records the current authoritative project decisions. Future product, d
 | Family Plus | €25 per season for a fourth household member | CURRENT MODEL |
 
 The 70/30 allocation remains subject to German VAT, invoicing, payment-processing, legal and contractual validation before launch. It is a club contract/economics issue and is not public homepage copy.
+
+### Public scarcity rule
+
+The 200-place maximum is part of public commercial communication.
+
+- Public wording: **maximal 200 Patenschaften pro Verein und Saison**.
+- A club may deliberately release fewer than 200 places.
+- When the club's released season inventory is fully sponsored, that club closes for new sponsorships until the next season.
+- The purpose is operational clarity and genuine scarcity; do not fabricate availability counts or false urgency.
+
+**Status: LOCKED**
 
 ## Community Fan Pass
 
@@ -54,7 +65,7 @@ If ordinary entry is already free, the sponsorship supports the Community Fan pr
 The sponsor supports one or more children at the fixed €99 unit price and receives:
 
 - Community Champion / Fan-Patenschaft recognition;
-- digital sponsor certificate;
+- personalized digital sponsor certificate;
 - business name and website link on the relevant club/season page;
 - recognition through the participating club;
 - inclusion in suitable local press/programme outreach;
@@ -62,11 +73,34 @@ The sponsor supports one or more children at the fixed €99 unit price and rece
 
 Optional paid add-ons: printed certificate, modern framed certificate, shipping, and Sponsor der Woche visibility.
 
+### Sponsor certificate
+
+The certificate is a proof artifact, not generic decoration. It must include:
+
+- company name;
+- town/city;
+- sponsoring level name;
+- number of sponsored children;
+- season;
+- Football200 / Sponsor a Young Fan programme identity;
+- signature line for **Football200 Vorstand**.
+
+Each level name must appear on the certificate:
+
+- **Fan-Pate** — 1 child;
+- **Vereinsfreund** — 3 children;
+- **Jugendförderer** — 5 children;
+- **Stadtpartner** — 10 children.
+
+Digital certificate is included. Modern print/frame presentation remains an optional paid add-on.
+
+**Status: LOCKED**
+
 ## Sponsor der Woche
 
 `Sponsor der Woche` is a separate optional paid visibility feature. It may include prominent placement on the Sponsor page, homepage feature for the week, social-media feature, and a short local sponsor story.
 
-It does not change child selection, programme access or the value of the €99 base sponsorship.
+It does not change child selection, programme access or the value of the base sponsorship.
 
 **Status: CURRENT MODEL / PRICE OPEN**
 
@@ -153,6 +187,8 @@ Current RunYourEvent club concept:
 
 Sponsor a Young Fan should visibly link the stadium/matchday and volunteer problem to RunYourEvent without turning volunteer management into a core Sponsor a Young Fan feature.
 
+RunYourEvent branding belongs in matchday/volunteer contexts. UNIKMO may be used as a company/example brand visual where a company image is otherwise unavailable.
+
 **Status: LOCKED PRODUCT SEPARATION / INSURANCE DETAILS OPEN**
 
 ## Family photo / sponsor-use asset
@@ -172,7 +208,7 @@ The initial sponsor offering should remain simple. Do not make the core product 
 The public homepage addresses **clubs first** because the programme cannot exist in a location until a club participates.
 
 1. Homepage: club acquisition around the pains **sponsors + young fans + low administrative burden**.
-2. Company page: local sports sponsorship offer with 1/3/5/10 child levels, certificate, visibility and optional Sponsor der Woche.
+2. Company page: local sports sponsorship offer with named 1/3/5/10 child levels, certificate, visibility, genuine 200-place scarcity and optional Sponsor der Woche.
 3. Child page: direct online application and school application route.
 4. Parent/guardian confirmation: after child selection.
 5. Stadium page: matchday experience and volunteer activation, with RunYourEvent as separate supporting service.
