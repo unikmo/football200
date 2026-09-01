@@ -1,52 +1,70 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Sponsor a Young Fan — Demo</title>
-  <meta name="description" content="Mehr junge Fans für euren Verein. Lokale Unternehmen sponsern Kinder und ihre Familien. Schulen bringen Kinder ins Programm. Vereine gewinnen neue Familien und mehr Atmosphäre." />
-  <meta name="robots" content="noindex,nofollow" />
-  <link rel="stylesheet" href="./styles.css" />
+  <meta name="description" content="Neue Sponsoren und junge Fans für Fußballvereine. Kinder bewerben sich online oder über die Schule. Lokale Unternehmen unterstützen mit klaren Patenschaften.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="demo-ribbon">LIVE DEMO · NICHT VERÖFFENTLICHT</div>
+<div class="site-wrap">
+  <div class="demo-ribbon">Live-Demo · nicht veröffentlicht</div>
   <header class="site-header">
-    <a class="brand" href="./index.html"><div class="brand-mark">❤</div><div><strong>SPONSOR A YOUNG FAN</strong><small>DEUTSCHLAND</small></div></a>
-    <nav><a href="#clubs">Vereine</a><a href="./sponsor/index.html">Unternehmen</a><a href="#how">So funktioniert's</a><a href="#faq">FAQ</a></nav>
-    <div class="header-actions"><button class="btn btn-outline" data-modal="club">Verein vormerken</button><a class="btn btn-solid" href="./sponsor/index.html">Sponsor werden</a></div>
+    <div class="header-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">⚽</span><span class="brand-text"><strong>Sponsor a Young Fan</strong><small>Powered by Community</small></span></a>
+      <nav><a href="verein.html">Für Vereine</a><a href="unternehmen.html">Für Unternehmen</a><a href="kinder-familien.html">Kinder & Familien</a><a href="stadion.html">Stadion</a><a href="#faq">FAQ</a></nav>
+      <div class="header-actions"><a class="btn btn-primary" href="verein.html#form">Mitmachen</a></div>
+    </div>
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero section">
       <div class="hero-copy">
-        <div class="eyebrow">Für Fußballvereine in Deutschland</div>
-        <h1>Mehr junge Fans<br>für euren Verein.</h1>
-        <p class="lead">Lokale Unternehmen sponsern. Kinder kommen über ihre Schule zum Club. Ihr gewinnt neue Familien — wir übernehmen die Abwicklung.</p>
-        <div class="price-box"><div class="price">€99</div><div><strong>sponsert eine Familie für eine Saison</strong><small>Bis zu 3 Personen · Optional +1 Person für €25</small></div></div>
-        <div class="hero-actions"><button class="btn btn-solid btn-lg" data-modal="club">Pilotverein werden</button><a class="btn btn-ghost btn-lg" href="./sponsor/index.html">Für Unternehmen</a></div>
+        <span class="eyebrow">Für Fußballvereine</span>
+        <h1>Neue Sponsoren.<br>Neue junge Fans.<br>Wenig Aufwand.</h1>
+        <p class="lead">Lokale Unternehmen wollen sinnvoll unterstützen. Kinder wollen ihren Verein erleben. Wir verbinden beides — und machen daraus ein einfaches Sponsoringprogramm für euren Club.</p>
+        <ul class="hero-list"><li>Sponsoren gewinnen, ohne jedes Angebot neu zu erfinden</li><li>Kinder früh an den Verein binden und Begleitpersonen an den Spieltag holen</li><li>Formulare, Ablauf und Kommunikation mit wenig Aufwand strukturieren</li></ul>
+        <div class="hero-actions"><a class="btn btn-primary btn-lg" href="verein.html#form">Mitmachen</a><a class="btn btn-secondary btn-lg" href="unternehmen.html">Für Unternehmen</a><a class="btn btn-dark btn-lg" href="kinder-familien.html#bewerbung">Kind anmelden</a></div>
       </div>
-      <div class="hero-visual"><img src="./assets/hero-small.webp" alt="Diverse Gruppe von Kindern mit einem Erwachsenen im Stadion" /></div>
+      <div class="hero-visual">
+        <img src="assets/hero-small.webp" alt="Diverse Kinder und ein Erwachsener im Stadion">
+        <div class="hero-badge"><svg class="football-3d" viewBox="0 0 120 120" aria-hidden="true"><defs><radialGradient id="ballGrad" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#f5f6f7"/><stop offset="1" stop-color="#d7dde3"/></radialGradient></defs><circle cx="60" cy="60" r="54" fill="url(#ballGrad)"/><path d="M60 30 45 41l5 18h20l5-18-15-11Z" fill="#151a20"/><path d="M45 41 29 46l-7 18 13 12 15-17-5-18Zm30 0 5 18 15 17 13-12-7-18-16-5ZM35 76l7 20 18 8 18-8 7-20-15-17H50L35 76Z" fill="#151a20"/><circle cx="60" cy="60" r="54" fill="none" stroke="#c7d0d8" stroke-width="2"/></svg><div><b>Football, Community, Zukunft.</b><span>Einfacher Einstieg für Vereine, Unternehmen und Kinder.</span></div></div>
+      </div>
     </section>
 
-    <section class="quick-grid" id="clubs">
-      <article class="info-card"><img src="./assets/club.webp" alt="Junge Fans im Vereinskontext" /><div class="card-body"><h2>Verein</h2><p class="what">Wir bringen Sponsoren und organisieren das Programm.</p><ul><li>Neue junge Fans und Familien</li><li>Mehr Leben am Spieltag</li><li>Kaum Aufwand für euch</li></ul></div></article>
-      <article class="info-card"><img src="./assets/business.webp" alt="Lokale Unternehmensvertreter" /><div class="card-body"><h2>Unternehmen</h2><p class="what">Einfache B2B-Sponsoringoption ohne komplizierte Pakete.</p><ul><li>Lokale Wirkung, die ankommt</li><li>Zertifikat & Sichtbarkeit</li><li>Starke Anerkennung in der Region</li></ul></div></article>
-      <article class="info-card"><img src="./assets/family.webp" alt="Kind mit Eltern im Stadionumfeld" /><div class="card-body"><h2>Kinder + Eltern</h2><p class="what">Kinder bewerben sich über ihre Schule. Eltern bestätigen nach Auswahl.</p><ul><li>Weg zum lokalen Verein</li><li>Gemeinsame Fußballmomente</li><li>Zugehörigkeit und Erinnerungen</li></ul></div></article>
-      <article class="info-card"><img src="./assets/stadium.webp" alt="Stadion mit jubelnden Zuschauern" /><div class="card-body"><h2>Stadion</h2><p class="what">Wir aktivieren ungenutzte Spieltags-Kapazität.</p><ul><li>Mehr Atmosphäre</li><li>Mehr Gemeinschaft</li><li>Stärkere Zukunft für den Club</li></ul></div></article>
+    <section class="value-strip section">
+      <div class="value-item"><div class="value-icon">€</div><div><strong>Sponsoren gewinnen</strong><span>Ein klares Angebot für lokale Unternehmen.</span></div></div>
+      <div class="value-item"><div class="value-icon">⚽</div><div><strong>Junge Fans gewinnen</strong><span>Kinder erleben ihren lokalen Verein früh und direkt.</span></div></div>
+      <div class="value-item"><div class="value-icon">♥</div><div><strong>Region stärken</strong><span>Unternehmen, Kinder und Verein lokal verbinden.</span></div></div>
+      <div class="value-item"><div class="value-icon">✓</div><div><strong>Wenig Aufwand</strong><span>Wir strukturieren Ablauf, Seiten und Formulare.</span></div></div>
     </section>
 
-    <section class="how" id="how">
-      <div class="section-head"><div class="eyebrow dark">Auf einen Blick</div><h2>So funktioniert's</h2></div>
-      <div class="steps"><div class="step"><span>1</span><strong>Verein macht mit</strong><small>Der Club wird Pilotverein.</small></div><div class="step"><span>2</span><strong>Unternehmen sponsern</strong><small>Je Familie €99.</small></div><div class="step"><span>3</span><strong>Kinder bewerben sich</strong><small>Über eine teilnehmende Schule.</small></div><div class="step"><span>4</span><strong>Gemeinsam erleben</strong><small>Mehr Familien am Spieltag.</small></div></div>
+    <section class="section section-card">
+      <div class="section-head"><div><span class="eyebrow">Vier Perspektiven</span><h2>Ein Programm. Vier klare Vorteile.</h2></div><p>Jede Zielgruppe sieht nur, was für sie relevant ist. Die Details stehen auf den jeweiligen Seiten.</p></div>
+      <div class="four-grid">
+        <a class="audience-card" href="verein.html"><img src="assets/club.webp" alt="Verein"><div class="content"><span class="kicker k-green">Für Vereine</span><h3>Verein</h3><p class="what-line">Sponsoren gewinnen, junge Fans erreichen und den Spieltag stärken.</p><ul><li>Neue junge Fans und Begleitpersonen am Spieltag</li><li>Mehr Atmosphäre und regionale Sichtbarkeit</li><li>Wenig Aufwand für euren Verein</li></ul><div class="footer-link">Zur Vereinsseite →</div></div></a>
+        <a class="audience-card" href="unternehmen.html"><img src="assets/business.webp" alt="Unternehmen"><div class="content"><span class="kicker k-blue">Für Unternehmen</span><h3>Unternehmen</h3><p class="what-line">Lokales Sportsponsoring mit konkreter Wirkung und sichtbarer Anerkennung.</p><ul><li>Patenschaften für 1, 3, 5 oder 10 Kinder</li><li>Modernes Zertifikat und Sichtbarkeit</li><li>Optional extra Reichweite als Sponsor der Woche</li></ul><div class="footer-link">Zur Unternehmensseite →</div></div></a>
+        <a class="audience-card" href="kinder-familien.html"><img src="assets/family.webp" alt="Kinder und Familien"><div class="content"><span class="kicker k-purple">Kinder & Familien</span><h3>Kinder & Familien</h3><p class="what-line">Das Kind bewirbt sich online oder über die Schule. Eltern bestätigen nach Auswahl.</p><ul><li>Kind im Mittelpunkt — fairer und einfacher Zugang</li><li>Schule als zusätzlicher Kanal</li><li>Klare Bewerbung mit Formular</li></ul><div class="footer-link">Zur Kinderseite →</div></div></a>
+        <a class="audience-card" href="stadion.html"><img src="assets/stadium.webp" alt="Stadion"><div class="content"><span class="kicker k-dark">Stadion</span><h3>Stadion</h3><p class="what-line">Mehr Erlebnis am Spieltag — mit Verlosung, Aktionen und leichterer Volunteer-Gewinnung.</p><ul><li>Mehr Stimmung und Bewegung rund ums Spiel</li><li>Schönerer Familien-Spieltag</li><li>Verbindung zu RunYourEvent.com</li></ul><div class="footer-link">Zur Stadionseite →</div></div></a>
+      </div>
     </section>
 
-    <section class="cta-band"><div class="cta-copy"><div class="eyebrow">Für Pilotvereine</div><h2>Gemeinsam Zukunft<br>auf dem Platz.</h2><p>Werdet Pilotverein und sichert euch einen Platz im Programm.</p><button class="btn btn-solid btn-lg" data-modal="club">Pilotverein werden</button></div><div class="cta-visual"><img src="./assets/cta-small.webp" alt="Diverse Kinder jubeln im Stadion" /></div></section>
+    <section class="section section-card levels">
+      <div><div class="section-head"><div><span class="eyebrow">Patenschaften</span><h2>Sponsoring-Level</h2></div></div><div class="level-grid"><div class="level-card"><div class="level-number">1</div><h3>1 Kind</h3><p>Direkter Einstieg für lokale Unternehmen.</p><div class="level-price">99 €</div></div><div class="level-card"><div class="level-number">3</div><h3>3 Kinder</h3><p>Mehr lokale Wirkung und Sichtbarkeit.</p><div class="level-price">297 €</div></div><div class="level-card"><div class="level-number">5</div><h3>5 Kinder</h3><p>Mehrere junge Fans sichtbar unterstützen.</p><div class="level-price">495 €</div></div><div class="level-card"><div class="level-number">10</div><h3>10 Kinder</h3><p>Starker lokaler Beitrag mit hoher Signalwirkung.</p><div class="level-price">990 €</div></div></div></div>
+      <div class="certificate-stage"><div class="certificate-frame"><div class="certificate-sheet"><div class="cert-top"><div class="cert-badge">★</div><div class="cert-title">Community Champion</div><div class="cert-name">Sponsor<br>Zertifikat</div></div><div class="cert-copy">Dieses Unternehmen unterstützt junge Fans in der Region und ermöglicht echte Fußballmomente.</div><div class="cert-sign"><div><strong>UNIKMO</strong><span>Programm</span></div><div style="text-align:right"><strong>2026/27</strong><span>Saison</span></div></div></div></div></div>
+    </section>
 
-    <section class="faq" id="faq"><div class="section-head"><div class="eyebrow dark">FAQ</div><h2>Kurz erklärt</h2></div><details><summary>Wer bewirbt sich?</summary><p>Das Kind — über eine teilnehmende Schule. Erst nach Auswahl werden Eltern oder Erziehungsberechtigte zur Bestätigung einbezogen.</p></details><details><summary>Was bekommt ein Unternehmen?</summary><p>Eine klare €99-Sponsoringoption, digitales Zertifikat, Namensnennung und Sichtbarkeit im Programm. Mehr Details stehen auf der Sponsor-Seite.</p></details><details><summary>Wie viele Personen umfasst der Fanpass?</summary><p>Bis zu drei Personen: 1 Kind + bis zu 2 Erwachsene oder 2 Kinder + 1 Erwachsener. Eine vierte Person kann für €25 pro Saison ergänzt werden.</p></details></section>
+    <section class="section section-card"><div class="section-head"><div><span class="eyebrow">Für Unternehmen</span><h2>Was Unternehmen bekommen</h2></div><p>Lokale Wirkung, sichtbare Anerkennung und ein hochwertiges Zertifikat — ohne komplizierte Sponsoringpakete.</p></div><div class="company-benefits"><div class="benefit-card"><h4>Modernes Zertifikat</h4><p>Digital inklusive. Optional hochwertig gedruckt und modern gerahmt.</p></div><div class="benefit-card"><h4>Sichtbarkeit</h4><p>Nennung und Link auf der passenden Programm- oder Saisonseite.</p></div><div class="benefit-card"><h4>Lokale Kommunikation</h4><p>Einbindung in geeignete Programm- und Pressekommunikation.</p></div><div class="benefit-card"><h4>Sponsor der Woche</h4><p>Optional zusätzliche Sichtbarkeit für eine begrenzte Zeit.</p></div></div></section>
+
+    <section class="section section-card"><div class="section-head"><div><span class="eyebrow">Kinderzugang</span><h2>Online oder über die Schule</h2></div><p>Das Kind bewirbt sich. Erst nach Auswahl werden Eltern oder Erziehungsberechtigte verbindlich eingebunden.</p></div><div class="path-grid"><div class="path-step"><div class="step-no">1</div><h3>Bewerbung</h3><p>Das Kind bewirbt sich online oder über die Schule.</p></div><div class="path-step"><div class="step-no">2</div><h3>Auswahl</h3><p>Verfügbare Plätze werden nach transparenten Regeln vergeben.</p></div><div class="path-step"><div class="step-no">3</div><h3>Bestätigung</h3><p>Eltern bestätigen Teilnahme, Kontaktdaten und nötige Einwilligungen.</p></div></div></section>
+
+    <section class="section section-card volunteer-split"><div><div class="section-head"><div><span class="eyebrow">Freiwillige aktivieren</span><h2>Spieltag & Volunteers</h2></div></div><p class="lead-small">Bessere Spieltage brauchen nicht zwingend neue Infrastruktur. Kleine Aktionen und klar definierte Helfereinsätze können reichen.</p><ul class="hero-list"><li>Halbzeit-Verlosung, Torschuss, Meet & Greet oder einfache Fußballaktionen</li><li>Freiwillige für einzelne Einsätze statt Dauerverpflichtung</li><li>Eventplanung und Volunteer-Recruiting separat über RunYourEvent.com</li></ul><div class="hero-actions"><a class="btn btn-linkish" href="stadion.html">Zum Stadion-Bereich</a><a class="btn btn-secondary" href="https://runyourevent.com" target="_blank" rel="noopener">RunYourEvent.com</a></div></div><div class="brand-tiles"><div class="brand-tile"><div><strong>UNIKMO</strong><span>Programm, Kommunikation und strukturierter Sponsoring-Flow.</span></div><span class="mini">Unternehmen</span></div><div class="brand-tile"><div><strong>RUNYOUR<br>EVENT</strong><span>Einfache Eventplanung und Volunteer-Recruiting für bessere Spieltage.</span></div><span class="mini">Spieltag</span></div></div></section>
+
+    <section id="faq" class="section section-card"><div class="section-head"><div><span class="eyebrow">Mehr zum Konzept</span><h2>FAQ</h2></div></div><div class="faq"><details><summary>Welches Problem löst Sponsor a Young Fan für Vereine?</summary><p>Viele Vereine suchen Sponsoren, neue junge Fans und zugleich einfache Lösungen, die nicht noch mehr Vereinsarbeit verursachen. Das Programm verbindet ein klar kaufbares Sponsoringangebot mit einem konkreten Nutzen für Kinder und den Spieltag.</p></details><details><summary>Wie finden Vereine über das Programm Sponsoren?</summary><p>Unternehmen erhalten ein einfach verständliches Angebot: Patenschaften für 1, 3, 5 oder 10 Kinder, mit Zertifikat und lokaler Sichtbarkeit. Der Verein muss dadurch nicht für jedes kleine Unternehmen ein eigenes Sponsoringpaket erfinden.</p></details><details><summary>Wer bewirbt sich — die Familie oder das Kind?</summary><p>Das Kind. Es kann sich direkt online oder über eine teilnehmende Schule bewerben. Erst nach Auswahl werden Eltern oder Erziehungsberechtigte eingebunden.</p></details><details><summary>Was bekommt ein Unternehmen?</summary><p>Konkrete lokale Wirkung, ein modernes digitales Zertifikat, Sichtbarkeit auf der passenden Programm- oder Saisonseite und optional zusätzliche Präsenz als Sponsor der Woche.</p></details><details><summary>Wie werden Freiwillige und Spieltagsaktionen organisiert?</summary><p>Spieltagsideen werden auf der Stadion-Seite erklärt. Für einfache Eventplanung und Volunteer-Recruiting wird RunYourEvent.com als separater Baustein verlinkt.</p></details></div></section>
   </main>
-
-  <footer class="site-footer"><div><strong>Sponsor a Young Fan</strong><p>Demo-Stand. Keine echten Bewerbungen oder Zahlungen.</p></div><div class="footer-right"><a href="./index.html">Start</a><a href="./sponsor/index.html">Unternehmen</a></div></footer>
-  <dialog id="modal"><button class="close" aria-label="Schließen">×</button><div id="modal-content"></div></dialog>
-  <script src="./script.js"></script>
+  <footer class="site-footer"><div class="footer-card"><div><strong>Sponsor a Young Fan</strong><span>Demo-Stand · keine echten Bewerbungen oder Zahlungen</span></div><div class="footer-links"><a href="verein.html">Verein</a><a href="unternehmen.html">Unternehmen</a><a href="kinder-familien.html">Kinder & Familien</a><a href="stadion.html">Stadion</a></div></div></footer>
+</div>
 </body>
 </html>
