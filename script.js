@@ -1,4 +1,45 @@
-const dialog=document.getElementById('demo-modal');const content=document.getElementById('modal-content');const closeBtn=dialog?.querySelector('.modal-close');
-const modalTemplates={sponsor:{title:'Als Unternehmen vormerken',intro:'Live-Demo: Noch keine Zahlung. Wir testen nur den Ablauf des 99-€-Angebots.',fields:`<label>Unternehmen<input name="company" required placeholder="z. B. Bäckerei Müller"></label><label>Ort<input name="city" required placeholder="z. B. Siegburg"></label><label>Wie viele Fanpässe?<select name="families"><option>1 Fanpass — €99</option><option>3 Fanpässe — €297</option><option>5 Fanpässe — €495</option><option>10 Fanpässe — €990</option></select></label><label>E-Mail<input type="email" name="email" required placeholder="name@unternehmen.de"></label>`,cta:'Demo-Anfrage absenden'},club:{title:'Verein für Pilot vormerken',intro:'Wir prüfen gemeinsam eure verfügbare Matchday-Kapazität, geeignete lokale Schulen und wie der Pilot mit möglichst wenig Zusatzaufwand für den Verein aufgesetzt werden kann.',fields:`<label>Verein<input name="club" required placeholder="Vereinsname"></label><label>Ort<input name="city" required placeholder="Ort"></label><label>Heimspiele / Zugang<select name="access"><option>Ticketiertes / eingezäuntes Gelände</option><option>Offener / leicht kontrollierter Sportplatz</option></select></label><label>E-Mail<input type="email" name="email" required placeholder="verein@club.de"></label>`,cta:'Pilotinteresse senden'},login:{title:'Demo-Login',intro:'Der Login ist im Live-Demo absichtlich nicht aktiviert.',fields:`<label>E-Mail<input type="email" placeholder="name@example.de"></label><label>Passwort<input type="password" placeholder="••••••••"></label>`,cta:'Demo'}};
-document.querySelectorAll('[data-modal]').forEach(btn=>{btn.addEventListener('click',()=>{const t=modalTemplates[btn.dataset.modal];if(!dialog||!t)return;content.innerHTML=`<div class="modal-body"><p class="eyebrow dark">Live-Demo</p><h2>${t.title}</h2><p>${t.intro}</p><form class="demo-form">${t.fields}<small>Keine Daten werden gespeichert. Dies ist nur der Demo-Ablauf.</small><button class="btn btn-green" type="submit">${t.cta}</button></form></div>`;dialog.showModal();content.querySelector('form').addEventListener('submit',e=>{e.preventDefault();content.innerHTML=`<div class="modal-body"><div class="demo-success">✓ Demo erfolgreich. In der echten Version würde jetzt der nächste Onboarding-Schritt folgen.</div></div>`})})});
-closeBtn?.addEventListener('click',()=>dialog.close());dialog?.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});const toggle=document.querySelector('.menu-toggle');const nav=document.getElementById('main-nav');toggle?.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open))});
+const modal = document.getElementById('modal');
+const modalContent = document.getElementById('modal-content');
+const closeBtn = document.querySelector('.close');
+
+const templates = {
+  club: `
+    <h2>Pilotverein vormerken</h2>
+    <p class="muted">Demo-Formular. Nicht versendet. Zweck: Flow und Inhalt zeigen.</p>
+    <div class="form-grid">
+      <input placeholder="Vereinsname" />
+      <input placeholder="Ansprechpartner" />
+      <input placeholder="E-Mail" />
+      <input placeholder="Ort / Liga" />
+      <textarea placeholder="Was möchtet ihr mit dem Programm erreichen?"></textarea>
+      <button class="btn btn-solid">Vormerkung absenden</button>
+    </div>
+  `,
+  sponsor: `
+    <h2>Als Unternehmen vormerken</h2>
+    <p class="muted">Demo-Formular. Nicht versendet. Zweck: Sponsor-Interesse und einfacher B2B-Flow.</p>
+    <div class="form-grid">
+      <input placeholder="Unternehmensname" />
+      <input placeholder="Ansprechpartner" />
+      <input placeholder="E-Mail" />
+      <select><option>1 Familie · €99</option><option>3 Familien · €297</option><option>5 Familien · €495</option></select>
+      <textarea placeholder="Optional: bestimmter Verein oder Familie?"></textarea>
+      <button class="btn btn-solid">Interesse vormerken</button>
+    </div>
+  `
+};
+
+document.querySelectorAll('[data-modal]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.getAttribute('data-modal');
+    modalContent.innerHTML = templates[key] || '<p>Inhalt nicht gefunden.</p>';
+    modal.showModal();
+  });
+});
+
+if (closeBtn) closeBtn.addEventListener('click', () => modal.close());
+if (modal) modal.addEventListener('click', (e) => {
+  const rect = modal.getBoundingClientRect();
+  const clickedInDialog = rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width;
+  if (!clickedInDialog) modal.close();
+});
