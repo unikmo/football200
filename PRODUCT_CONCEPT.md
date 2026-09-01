@@ -6,57 +6,72 @@ Sponsor a Young Fan is a Germany-first community sponsorship programme for lower
 
 The model connects four actors:
 
-1. **Football clubs** with available/underused matchday capacity and an interest in attracting more families.
-2. **Local businesses** that want an affordable, credible way to support their community.
-3. **Schools and children** as the application/distribution channel for Community Fan Passes.
+1. **Football clubs** that want more sponsors, more young fans and stronger matchdays without adding unnecessary administration.
+2. **Local businesses** that want an affordable, credible and visible way to support their community through sports sponsorship.
+3. **Children**, who apply directly online or through participating schools.
 4. **Parents/guardians**, who confirm participation after a child has been selected.
 
-A local business pays **€99 for one season**. The club contributes controlled Community Fan capacity. A child applies through a participating school. If selected, the child's parent/guardian confirms participation and the selected child receives a flexible **three-person Community Fan Pass** for participating home matches.
+A local business sponsors one child for **€99 per season**. Companies can support 1, 3, 5 or 10 children at the same fixed €99 unit price. The club contributes controlled Community Fan capacity. After selection, the parent/guardian confirms participation and the selected child receives access together with eligible accompanying household members.
 
 The programme is capped at **200 Community Fan Passes per club per season**.
 
-Sponsor a Young Fan runs the programme layer: club onboarding, sponsor acquisition, school/application coordination, child selection administration, parent/guardian confirmation, sponsor recognition, certificates, season pages, press outreach, and standardized programme communication.
+Sponsor a Young Fan runs the programme layer: club onboarding, sponsor acquisition, child application flow, school coordination, selection administration, parent/guardian confirmation, sponsor recognition, certificates, season pages, press outreach and standardized programme communication.
 
-The product remains intentionally simple. It is not a welfare bureaucracy, complicated sponsorship dashboard, volunteer-management tool, or discounted-ticket marketplace.
+The product remains intentionally simple. It is not a welfare bureaucracy, complicated sponsorship dashboard, volunteer-management tool or discounted-ticket marketplace.
 
 ---
 
 ## 2. Core insight
 
-Sports matchday capacity is perishable. Once a home fixture is over, unused attendance capacity cannot be monetized later.
+Sports matchday capacity is perishable. Once a home fixture is over, unused attendance capacity cannot be used later.
 
 A controlled portion of that capacity can instead create:
 
 - sponsorship revenue;
-- new child/family attendance;
+- new young fans;
 - stronger matchday atmosphere;
 - future supporters;
 - local-business relationships;
 - potential secondary matchday spend;
 - stronger child/family experiences around the club.
 
-The sponsor is **not buying retail season tickets**.
+The sponsor is **not buying conventional retail season tickets**.
 
 The model is:
 
-> Club participates → local businesses sponsor → children apply through schools → selected children bring their family → the club gains new community participation.
+> Club participates → local businesses sponsor → children apply online or through schools → selected children attend with eligible accompanying household members → the club gains new community participation.
 
 ---
 
-## 3. Homepage and acquisition hierarchy
+## 3. Germany-first positioning
 
-The public homepage addresses **clubs first**.
+### Homepage / club
+**Neue Sponsoren. Neue junge Fans. Wenig Aufwand.**
 
-Why: no sponsor or child application can exist in a location until a club agrees to participate.
+### Club detail
+**Sponsoren finden. Junge Fans gewinnen. Wenig Aufwand.**
 
-The acquisition hierarchy is:
+### Company
+**Lokales Sportsponsoring, das ankommt.**
 
-1. **Homepage → football clubs**
-2. **Sponsor page → local businesses**
-3. **Child application → participating schools**
-4. **Parent/guardian confirmation → after selection**
+### Child
+**Du möchtest deinen Verein live erleben?**
 
-Internal contractual mechanics should not dominate public homepage copy.
+### Stadium / matchday
+**Aus einem Spiel wird ein Spieltag, an den Kinder sich erinnern.**
+
+The homepage addresses **clubs first** because no local sponsor or child application can operate until a club participates.
+
+The website separates audience needs:
+
+1. Homepage → football clubs
+2. Club page → sponsor acquisition + young fans + low admin burden
+3. Company page → local sports sponsorship value, price levels, certificate and visibility
+4. Child page → online/school application
+5. Stadium page → matchday experience + volunteer activation
+6. Parent/guardian confirmation → after selection
+
+Contractual mechanics should not dominate public homepage copy.
 
 ---
 
@@ -66,7 +81,7 @@ The model does not require an enclosed professional stadium.
 
 A club can qualify if it can:
 
-- accommodate additional families;
+- accommodate additional participants;
 - reliably organize/check in Community Fan participants;
 - authorize the relevant participation/access; and
 - run regular home fixtures with a meaningful local community.
@@ -75,21 +90,15 @@ If ordinary entry is already free, the sponsorship supports the **Community Fan 
 
 ---
 
-## 5. Programme cap
+## 5. Programme cap and pass
 
 Each participating club may offer a maximum of:
 
 # 200 Community Fan Passes per season
 
-A club may begin with a smaller pilot and scale toward 200.
-
----
-
-## 6. Community Fan Pass
-
 The standard pass supports up to **three members of the selected child's household** at an eligible match.
 
-Valid configurations:
+Valid configurations include:
 
 - 1 child + 1 adult;
 - 1 child + 2 adults;
@@ -97,91 +106,72 @@ Valid configurations:
 
 At least one participating child must be present.
 
-The household may vary the composition between participating matches within the three-person maximum.
+A fourth household member may be added for **€25 per season**, subject to club capacity and operating rules.
 
-### Family Plus
-
-A fourth household member may be added for:
-
-**€25 per season**
-
-subject to club capacity and operating rules.
+Public messaging should keep the **child** central. Siblings and parent/guardian access are supporting mechanics rather than the main product headline.
 
 ---
 
-## 7. Child-led school application
+## 6. Child-led application — online or school
 
-The **child is the applicant**, through a participating school.
-
-The family is not the primary applicant.
+The **child is the applicant**.
 
 ### Application flow
 
-1. A club joins the programme and defines the number of Community Fan Passes available.
-2. Sponsor a Young Fan coordinates with participating local schools.
-3. Children are invited to submit a simple, age-appropriate expression of interest through the school.
-4. The application should indicate genuine interest in attending and supporting the local club.
+1. A club joins and defines available programme places.
+2. Local companies sponsor places.
+3. Applications open through two channels: direct online application and participating schools.
+4. Children submit a simple, age-appropriate expression of interest.
 5. Children should not be required to disclose financial hardship publicly or compete through emotional/sad-story submissions.
 6. If eligible applications exceed available places, transparent criteria and, where appropriate, random selection among eligible children are used.
-7. After a child is selected, the parent/guardian is contacted to confirm participation, household members, permissions, and required consents.
+7. After selection, the parent/guardian confirms participation, household members, permissions and required consents.
 8. The Community Fan Pass is activated for the child and eligible accompanying household members.
 
-The school is the application/distribution channel. It does not replace parent/guardian consent where consent is legally or operationally required.
+Schools are an important distribution/application channel but not the exclusive route and do not replace parent/guardian consent where legally or operationally required.
 
 ---
 
-## 8. Sponsor offer
+## 7. Sponsor offer
 
-# 99 €. Eine Familie. Eine Saison.
+### Sponsoring levels
 
-One €99 sponsorship supports one selected child and their Community Fan household pass for one season.
+- 1 child = **€99**
+- 3 children = **€297**
+- 5 children = **€495**
+- 10 children = **€990**
+
+The €99 unit remains intact.
 
 The sponsor receives:
 
-- sponsor/Fan-Patenschaft recognition;
-- digital certificate;
+- Community Champion / Fan-Patenschaft recognition;
+- modern digital certificate;
 - business name and website link on the relevant club/season sponsor page;
 - recognition through the participating club;
-- inclusion in local press outreach;
+- inclusion in suitable local press/programme outreach;
 - optional approved child/family matchday photo/story only where valid parent/guardian consent and usage rights exist.
 
-Optional paid physical add-ons:
+Optional paid add-ons may include:
 
-- printed certificate;
-- framed certificate;
-- shipping.
+- premium printed certificate;
+- modern framed certificate;
+- shipping;
+- Sponsor der Woche visibility.
 
-### No discounting
+### Sponsor der Woche
 
-The €99 unit remains intact:
+A separate paid Sponsor der Woche option may provide:
 
-- 1 sponsorship = €99
-- 3 = €297
-- 5 = €495
-- 10 = €990
-
-A sponsor simply chooses how many children/families it wants to support.
-
----
-
-## 9. Sponsor der Woche
-
-Every normal €99 sponsor receives the same core recognition.
-
-A separate paid **Sponsor der Woche** option may provide:
-
-- prominent position on the Sponsor page;
+- prominent position on the sponsor page;
 - homepage feature for the week;
 - social-media feature;
-- short local sponsor story.
+- short local company story.
 
-This feature buys visibility only. It does not influence child selection or programme access.
-
-Pricing remains open for pilot testing.
+It buys visibility only and does not influence child selection or programme access. Pricing remains open for pilot testing.
 
 ---
 
-## 10. Sponsor nomination
+## 8. Sponsor nomination
 
 A sponsor may nominate a specific child/family it knows.
 
@@ -189,27 +179,27 @@ The nomination must not bypass:
 
 - programme eligibility;
 - available capacity;
-- school/programme rules where applicable;
 - safeguarding requirements;
+- programme rules where applicable;
 - parent/guardian confirmation.
 
 The sponsor does not gain direct control over the child/family relationship or private child/family data.
 
 ---
 
-## 11. Renewal
+## 9. Renewal
 
 Every season starts again.
 
 - Community Fan Passes last one season.
 - No automatic renewal.
 - No guaranteed renewal.
-- A previously selected child may apply again through the relevant school/programme route.
+- A previously selected child may apply again online or through the relevant school/programme route.
 - No weekly attendance policing or performance score.
 
 ---
 
-## 12. Club economics
+## 10. Club economics
 
 The initial model has no upfront platform fee for the club.
 
@@ -217,47 +207,25 @@ Current illustrative commercial model:
 
 # 70% club / 30% Sponsor a Young Fan
 
-This is a commercial testing model and not yet a final German contract/tax structure.
+Participating clubs commit contractually to reinvesting at least **30% of the club's programme proceeds** into improvements that directly enhance the matchday experience for children and families.
+
+These are **club contract/onboarding mechanics**, not homepage headline material.
 
 VAT, invoicing, payment-processing and legal treatment require validation before production launch.
 
 ---
 
-## 13. Community Fan Reinvestment Commitment
-
-Participating clubs commit contractually to reinvesting:
-
-# at least 30% of the club's Sponsor a Young Fan programme proceeds
-
-into improvements that directly enhance the matchday experience for children and families.
-
-This is primarily a **club contract/onboarding requirement**, not homepage headline material.
-
-Examples:
-
-- games and football activities;
-- family areas;
-- child-friendly food/drink offers;
-- weather protection;
-- small prizes/materials;
-- meet-and-greets;
-- halftime and post-match experiences.
-
----
-
-## 14. Matchday Experience Playbook
+## 11. Matchday Experience Playbook
 
 The experience layer is optional.
 
 Potential ideas:
 
 - **Halbzeit-Verlosung** — genuinely free sponsor-supported draw with small local prizes, subject to German legal review;
-- optional penalty challenge against an appropriate reserve/youth goalkeeper;
+- optional target/shot challenge against an appropriate reserve/youth goalkeeper;
 - player meet-and-greets;
 - football skills challenges;
-- sack races;
-- can tossing;
-- tug-of-war;
+- simple low-cost games;
 - optional post-match pitch experiences.
 
 Principle:
@@ -268,7 +236,7 @@ All activities remain subject to club safety, safeguarding, pitch, competition a
 
 ---
 
-## 15. Volunteer recruitment: separate RunYourEvent product
+## 12. Volunteer recruitment: separate RunYourEvent product
 
 Sponsor a Young Fan does not become volunteer-management software.
 
@@ -281,9 +249,11 @@ Current RunYourEvent club concept:
 - short, defined micro-volunteer shifts;
 - optional insurance/coverage add-on after checking existing German sports/club insurance.
 
+The stadium/matchday page should visibly link this need to RunYourEvent without bloating the Sponsor a Young Fan offer.
+
 ---
 
-## 16. Club recognition requirement
+## 13. Club recognition and local press
 
 Participating clubs must visibly recognize the programme during the season.
 
@@ -294,17 +264,13 @@ Minimum:
 
 Preferred: both.
 
----
-
-## 17. Local press
-
-Sponsor a Young Fan proactively informs relevant local newspapers, community publications, radio and sports media about programme launches and meaningful milestones.
+Sponsor a Young Fan proactively informs relevant local media about programme launches and meaningful milestones.
 
 The promise is **press outreach, not guaranteed editorial coverage**.
 
 ---
 
-## 18. Child/family photo story
+## 14. Child/family photo story
 
 Where valid parent/guardian consent exists, a sponsor may receive an approved child/family matchday photo/story for its website or social channels.
 
@@ -312,9 +278,7 @@ The exact German implementation for identifiable child imagery, sponsor marketin
 
 ---
 
-## 19. Technology layer
-
-The long-term product can manage:
+## 15. Technology layer
 
 ### Clubs
 - onboarding;
@@ -330,10 +294,10 @@ The long-term product can manage:
 - physical certificate ordering;
 - Sponsor der Woche visibility.
 
-### Schools / children
-- participating school setup;
-- child application invitations;
-- age-appropriate application forms;
+### Children
+- direct online application;
+- school-distributed application route;
+- age-appropriate forms;
 - selection administration.
 
 ### Parents/guardians
@@ -351,36 +315,42 @@ The MVP should not add complexity clubs do not need.
 
 ---
 
-## 20. Germany-first launch
+## 16. Search and SEO architecture
 
-Germany is the first market.
+Germany-first search evidence supports building around existing category/problem language rather than forcing the brand phrase into every query.
 
-The target is not defined solely by league level. A club can qualify wherever it has available/underused matchday capacity and enough operating control to run the programme reliably.
+Primary clusters include:
+
+- sponsoring verein;
+- sponsoren finden verein;
+- sportverein sponsoring;
+- sponsoring fußballverein;
+- sportsponsoring;
+- ehrenamt sportverein.
+
+The rule is:
+
+> Search language captures demand → pain language converts → Sponsor a Young Fan is introduced as the solution.
+
+See `SEO_MAP.md` for page-to-keyword mapping.
+
+---
+
+## 17. Germany-first launch proof points
 
 Initial pilots should prove:
 
 - club acceptance;
 - local sponsor conversion at €99;
-- school participation;
-- child application demand;
+- online and school application demand;
 - parent/guardian conversion after selection;
 - operational simplicity;
 - sponsor renewal intent;
-- club/child/family satisfaction;
+- club/child satisfaction;
 - incremental attendance and secondary spend where measurable.
 
 ---
 
-## 21. Core messaging
+## 18. Simple model statement
 
-### Club homepage
-**Mehr Familien. Mehr Leben am Spieltag.**
-
-### Sponsor page
-**99 €. Eine Familie. Eine Saison.**
-
-### Programme identity
-**200 junge Fans. 200 lokale Unterstützer. Ein Verein.**
-
-### Simple model
-**Verein macht mit. Unternehmen sponsern. Kinder bewerben sich über ihre Schule. Wir organisieren das Programm.**
+**Verein macht mit. Unternehmen sponsern. Kinder bewerben sich online oder über ihre Schule. Wir organisieren das Programm.**
