@@ -18,14 +18,15 @@ This file records the current authoritative project decisions. Future product, d
 
 | Field | Canonical value | Status |
 |---|---|---|
-| Standard sponsor price | €99 per sponsored child/family per season | LOCKED |
+| Standard sponsor price | €99 per sponsored child/programme place per season | LOCKED |
+| Sponsoring levels | 1 child = €99; 3 = €297; 5 = €495; 10 = €990 | LOCKED |
 | Volume discounting | None; €99 unit remains intact | LOCKED |
 | Club programme cap | Maximum 200 sponsored Community Fan Passes per club per season | LOCKED |
 | Current illustrative split | 70% club / 30% Sponsor a Young Fan | CURRENT MODEL |
 | Club upfront platform fee | None in initial model | LOCKED |
 | Family Plus | €25 per season for a fourth household member | CURRENT MODEL |
 
-The 70/30 allocation remains subject to German VAT, invoicing, payment-processing, legal and contractual validation before launch.
+The 70/30 allocation remains subject to German VAT, invoicing, payment-processing, legal and contractual validation before launch. It is a club contract/economics issue and is not public homepage copy.
 
 ## Community Fan Pass
 
@@ -38,9 +39,11 @@ The 70/30 allocation remains subject to German VAT, invoicing, payment-processin
 | Fourth household member | Family Plus at €25/season | CURRENT MODEL |
 | Nature of pass | Controlled Community Fan access, not conventional retail season tickets | LOCKED |
 
+Public communication should not overemphasize the family unit. The sponsored **child is the central participant**; siblings and parent/guardian participation are supporting access mechanics.
+
 ## Venue / inventory qualification
 
-A club does not need a gated professional stadium. It can qualify if it can accommodate additional families, reliably organize participation/check-in, authorize the relevant access, and run regular home fixtures with a meaningful local community.
+A club does not need a gated professional stadium. It can qualify if it can accommodate additional participants, reliably organize participation/check-in, authorize the relevant access, and run regular home fixtures with a meaningful local community.
 
 If ordinary entry is already free, the sponsorship supports the Community Fan programme and matchday experience rather than a fictitious free ticket.
 
@@ -48,17 +51,16 @@ If ordinary entry is already free, the sponsorship supports the Community Fan pr
 
 ## Sponsor proposition
 
-The €99 sponsor receives:
+The sponsor supports one or more children at the fixed €99 unit price and receives:
 
-- one sponsored Community Fan Pass for the season;
 - Community Champion / Fan-Patenschaft recognition;
 - digital sponsor certificate;
 - business name and website link on the relevant club/season page;
 - recognition through the participating club;
-- inclusion in local press outreach;
-- an approved family matchday photo/story asset only where the required parent/guardian consent and usage rights have been validly obtained.
+- inclusion in suitable local press/programme outreach;
+- an approved child/family matchday photo/story asset only where required parent/guardian consent and usage rights have been validly obtained.
 
-Optional paid add-ons: printed certificate, framed certificate, shipping.
+Optional paid add-ons: printed certificate, modern framed certificate, shipping, and Sponsor der Woche visibility.
 
 ## Sponsor der Woche
 
@@ -74,28 +76,28 @@ Participating clubs must visibly recognize the programme for the season by linki
 
 **Status: LOCKED**
 
-## Child-led school application flow
+## Child-led application flow — online or school
 
-The applicant is **the child, through a participating school**, not the family.
+The applicant is **the child**, not the family.
 
 Canonical flow:
 
 1. A participating club opens a defined number of Community Fan Passes.
-2. Local businesses sponsor places at €99 each.
-3. Sponsor a Young Fan works with participating schools to invite children to apply.
-4. A child submits a simple, age-appropriate expression of interest through the school.
+2. Local businesses sponsor places at €99 per child.
+3. Sponsor a Young Fan opens the child application through two permitted channels: direct online application and participating schools.
+4. A child submits a simple, age-appropriate expression of interest online or through a school.
 5. The application must not require public hardship disclosure or a "saddest story" competition.
 6. If applications exceed available places, the programme uses transparent eligibility/selection rules and, where appropriate, random selection among eligible children.
-7. Once a child is selected, the parent/guardian is contacted to confirm participation, household details, permissions and any necessary consent.
+7. Once a child is selected, the parent/guardian is contacted to confirm participation, household details, permissions and necessary consent.
 8. The Community Fan Pass then covers the selected child and eligible accompanying household members.
 
-The school is an application/distribution channel, not the legal substitute for parent/guardian consent where consent is required.
+Schools are an important application/distribution channel, but not the exclusive channel and not the legal substitute for parent/guardian consent where consent is required.
 
 **Status: LOCKED**
 
 ## Sponsor nomination
 
-A sponsor may nominate a specific child/family it knows, but this does not remove the need for programme eligibility, available capacity, safeguarding, school/programme rules where applicable, and parent/guardian confirmation.
+A sponsor may nominate a specific child/family it knows, but this does not remove the need for programme eligibility, available capacity, safeguarding, programme rules where applicable, and parent/guardian confirmation.
 
 A sponsor does not gain ownership/control of the child/family relationship or automatic access to private child/family data.
 
@@ -107,7 +109,7 @@ Every season starts again.
 
 - Community Fan Passes last one season.
 - No automatic or guaranteed renewal.
-- A previously selected child may apply again through the relevant school/programme route.
+- A previously selected child may apply again through the online or relevant school/programme route.
 - No weekly attendance policing or performance score.
 
 **Status: LOCKED**
@@ -129,7 +131,7 @@ Activities are optional suggestions, not mandatory programme conditions.
 Current ideas include:
 
 - **Halbzeit-Verlosung** — genuinely free sponsor-supported draw, subject to German legal review;
-- optional penalty challenge against an appropriate reserve/youth goalkeeper;
+- optional penalty/shot challenge against an appropriate reserve/youth goalkeeper;
 - meet-and-greets;
 - football skills challenges;
 - sack races, can tossing, tug-of-war;
@@ -149,6 +151,8 @@ Current RunYourEvent club concept:
 - micro-volunteer shifts such as two-hour matchday assignments;
 - optional insurance/coverage add-on after checking whether the club's existing German sports/volunteer insurance already provides sufficient cover.
 
+Sponsor a Young Fan should visibly link the stadium/matchday and volunteer problem to RunYourEvent without turning volunteer management into a core Sponsor a Young Fan feature.
+
 **Status: LOCKED PRODUCT SEPARATION / INSURANCE DETAILS OPEN**
 
 ## Family photo / sponsor-use asset
@@ -167,13 +171,26 @@ The initial sponsor offering should remain simple. Do not make the core product 
 
 The public homepage addresses **clubs first** because the programme cannot exist in a location until a club participates.
 
-1. Homepage: club acquisition and club value proposition.
-2. Sponsor page: local business offer (€99, recognition, certificate, optional Sponsor der Woche).
-3. Child application: activated only for participating clubs and distributed through participating schools.
+1. Homepage: club acquisition around the pains **sponsors + young fans + low administrative burden**.
+2. Company page: local sports sponsorship offer with 1/3/5/10 child levels, certificate, visibility and optional Sponsor der Woche.
+3. Child page: direct online application and school application route.
 4. Parent/guardian confirmation: after child selection.
-5. Contractual mechanics such as the 30% reinvestment commitment stay in club onboarding/agreements, not headline homepage content.
+5. Stadium page: matchday experience and volunteer activation, with RunYourEvent as separate supporting service.
+6. Contractual mechanics such as the 30% reinvestment commitment stay in club onboarding/agreements, not headline homepage content.
 
 **Status: LOCKED**
+
+## Search-positioning alignment
+
+Germany-first SEO should distinguish three layers:
+
+- **Search language:** e.g. `sponsoring verein`, `sponsoren finden verein`, `sponsoring sportverein`, `sponsoring fußballverein`, `ehrenamt sportverein`.
+- **Pain language:** sponsors are hard to find, young fans need to be won, clubs have limited volunteer/admin capacity, companies want understandable local value.
+- **Product language:** `Sponsor a Young Fan` is the named solution.
+
+Do not force the brand phrase into places where German searchers use a different category phrase. Use audience/search language to earn discovery, then introduce the brand solution.
+
+**Status: LOCKED STRATEGIC DIRECTION**
 
 ## Live-demo implementation boundary
 
@@ -184,13 +201,22 @@ The current demo is deliberately non-production: no real payments, no persistent
 ## Positioning
 
 ### Homepage / club
-**Mehr Familien. Mehr Leben am Spieltag.**
+**Neue Sponsoren. Neue junge Fans. Wenig Aufwand.**
 
-### Sponsor
-**99 €. Eine Familie. Eine Saison.**
+### Club detail
+**Sponsoren finden. Junge Fans gewinnen. Wenig Aufwand.**
+
+### Company
+**Lokales Sportsponsoring, das ankommt.**
+
+### Child
+**Du möchtest deinen Verein live erleben?**
+
+### Stadium / matchday
+**Aus einem Spiel wird ein Spieltag, an den Kinder sich erinnern.**
 
 ### Programme identity
 **200 junge Fans. 200 lokale Unterstützer. Ein Verein.**
 
 ### Simple model statement
-**Verein macht mit. Unternehmen sponsern. Kinder bewerben sich über ihre Schule. Wir organisieren das Programm.**
+**Verein macht mit. Unternehmen sponsern. Kinder bewerben sich online oder über ihre Schule. Wir organisieren das Programm.**
