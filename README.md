@@ -12,7 +12,7 @@ The child is the central participant. Parents/guardians are brought into the pro
 
 ## Club proposition
 
-The website now frames the club problem directly:
+The website frames the club problem directly:
 
 - **Sponsoren finden**
 - **junge Fans gewinnen**
@@ -24,23 +24,34 @@ The club page is [`verein.html`](verein.html).
 
 **Lokales Sportsponsoring, das ankommt.**
 
-Sponsoring levels:
+Named sponsorship levels:
 
-- 1 child = **€99**
-- 3 children = **€297**
-- 5 children = **€495**
-- 10 children = **€990**
+- **Fan-Pate** — 1 child = **€99**
+- **Vereinsfreund** — 3 children = **€297**
+- **Jugendförderer** — 5 children = **€495**
+- **Stadtpartner** — 10 children = **€990**
 
 The €99 unit remains fixed. The company offer emphasizes:
 
 - concrete local impact;
-- modern digital sponsor certificate;
+- personalized modern digital sponsor certificate;
 - optional premium printed/framed certificate;
 - business name + link on relevant programme/season pages;
 - suitable local programme/press visibility;
 - optional **Sponsor der Woche** visibility add-on.
 
+The certificate records the **company name, town/city, sponsorship level, number of sponsored children, season and Football200 Vorstand signature line**.
+
 The company page is [`unternehmen.html`](unternehmen.html).
+
+## Real scarcity: maximum 200 per club
+
+Each club can release up to **200 sponsored programme places per season**.
+
+- A club may deliberately start with fewer places.
+- Public communication may state **maximal 200 Patenschaften pro Verein und Saison**.
+- Once the club's released season inventory is fully sponsored, new sponsorships for that club close until the next season.
+- Do not invent live availability numbers or false urgency.
 
 ## Child application
 
@@ -53,7 +64,6 @@ After selection, parents/guardians confirm participation and required permission
 
 ## Community Fan Pass
 
-- Maximum **200 sponsored programme places per club per season**.
 - Up to **3 household members** per eligible match.
 - Valid configurations: 1 child + up to 2 adults, or 2 children + 1 adult.
 - Current **Family Plus: €25/season** for a fourth household member.
@@ -85,11 +95,13 @@ Volunteer recruitment remains outside Sponsor a Young Fan. Clubs needing helpers
 
 Current RunYourEvent club concept: €200/club/year plus optional insurance/coverage layer after checking existing German club/sports cover.
 
+RunYourEvent branding belongs in matchday/volunteer contexts. UNIKMO may be used as an example company visual when no company photo is available.
+
 ## SEO architecture
 
 Germany-first keyword research shows strong demand around sponsor acquisition and sports sponsorship, including `sponsoring verein`, `sponsoren finden verein`, `sportverein sponsoring`, `sponsoring fußballverein` and `ehrenamt sportverein`.
 
-The demo now includes audience pages plus eight search-intent landing pages:
+The demo includes audience pages plus eight search-intent landing pages:
 
 - [`sponsoren-finden-verein.html`](sponsoren-finden-verein.html)
 - [`sponsoring-sportverein.html`](sponsoring-sportverein.html)
