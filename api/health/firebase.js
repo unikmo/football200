@@ -3,8 +3,10 @@ const { sendJson } = require('../_lib/http');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: 'METHOD_NOT_ALLOWED' });
+
+  let config = null;
   try {
-    const config = getFirebaseConfig();
+    config = getFirebaseConfig();
     await listDocuments('_health_probe', 1);
     return sendJson(res, 200, {
       ok: true,
@@ -19,6 +21,9 @@ module.exports = async function handler(req, res) {
       configured: error.code !== 'FIREBASE_NOT_CONFIGURED',
       error: error.code || 'FIREBASE_HEALTH_FAILED',
       upstreamStatus: Number.isInteger(error.status) ? error.status : null,
+      projectId: config?.projectId || null,
+      databaseId: config?.databaseId || null,
+      environment: process.env.VERCEL_ENV || 'unknown',
     });
   }
 };
