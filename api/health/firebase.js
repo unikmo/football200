@@ -18,6 +18,7 @@ module.exports = async function handler(req, res) {
       ok: false,
       configured: error.code !== 'FIREBASE_NOT_CONFIGURED',
       error: error.code || 'FIREBASE_HEALTH_FAILED',
+      upstreamStatus: Number.isInteger(error.status) ? error.status : null,
     });
   }
 };
