@@ -2,6 +2,7 @@ const crypto = require('crypto');
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const FIRESTORE_SCOPE = 'https://www.googleapis.com/auth/datastore';
+const FIRESTORE_DATABASE_ID = '(default)';
 let cachedToken = null;
 let cachedTokenExpiresAt = 0;
 
@@ -61,7 +62,7 @@ function parsePrivateKeyInput(input) {
 
 function getFirebaseConfig() {
   const projectId = process.env.FIREBASE_PROJECT_ID;
-  const databaseId = process.env.FIREBASE_DATABASE_ID || '(default)';
+  const databaseId = FIRESTORE_DATABASE_ID;
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   const keyInput = process.env.FIREBASE_PRIVATE_KEY_BASE64;
 
