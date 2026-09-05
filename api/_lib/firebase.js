@@ -13,33 +13,34 @@ function base64url(input) {
     .replace(/\//g, '_');
 }
 
-function getFirebaseConfig() {
-  const projectId = process.env.FIREBASE_PROJECT_ID;
-  const databaseId = process.env.FIREBASE_DATABASE_ID || '(default)';
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const encodedKey = process.env.FIREBASE_PRIVATE_KEY_BASE64;
+function normalizePrivateKey(value) {
+  return String(value || '').trim().replace(/\\n/g, '\n');
+}
 
-  if (!projectId || !clientEmail || !encodedKey) {
-    const error = new Error('Firebase server credentials are incomplete');
-    error.code = 'FIREBASE_NOT_CONFIGURED';
-    throw error;
-  }
+function parsePrivateKeyInput(input) {
+  const raw = String(input || '').trim();
+  if (!raw) return '';
 
-  let decoded;
-  try {
-    decoded = Buffer.from(encodedKey, 'base64').toString('utf8').trim();
-  } catch (cause) {
-    const error = new Error('Firebase private key could not be decoded');
-    error.code = 'FIREBASE_KEY_INVALID';
-    error.cause = cause;
-    throw error;
-  }
+  let candidate = raw;
 
-  let privateKey = decoded;
-  if (decoded.startsWith('{')) {
+  // Accept a raw PEM or raw service-account JSON as well as the documented
+  // base64-encoded PEM/JSON form. This keeps the server-side secret flexible
+  // without ever exposing it to browser code.
+  if (!raw.includes('PRIVATE KEY') && !raw.startsWith('{')) {
     try {
-      const json = JSON.parse(decoded);
-      privateKey = json.private_key || json.privateKey;
+      candidate = Buffer.from(raw, 'base64').toString('utf8').trim();
+    } catch (cause) {
+      const error = new Error('Firebase private key could not be decoded');
+      error.code = 'FIREBASE_KEY_INVALID';
+      error.cause = cause;
+      throw error;
+    }
+  }
+
+  if (candidate.startsWith('{')) {
+    try {
+      const json = JSON.parse(candidate);
+      candidate = json.private_key || json.privateKey || '';
     } catch (cause) {
       const error = new Error('Firebase service-account JSON could not be parsed');
       error.code = 'FIREBASE_KEY_INVALID';
@@ -48,12 +49,29 @@ function getFirebaseConfig() {
     }
   }
 
+  const privateKey = normalizePrivateKey(candidate);
   if (!privateKey || !privateKey.includes('PRIVATE KEY')) {
     const error = new Error('Firebase private key is not a PEM private key');
     error.code = 'FIREBASE_KEY_INVALID';
     throw error;
   }
 
+  return privateKey;
+}
+
+function getFirebaseConfig() {
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const databaseId = process.env.FIREBASE_DATABASE_ID || '(default)';
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const keyInput = process.env.FIREBASE_PRIVATE_KEY_BASE64;
+
+  if (!projectId || !clientEmail || !keyInput) {
+    const error = new Error('Firebase server credentials are incomplete');
+    error.code = 'FIREBASE_NOT_CONFIGURED';
+    throw error;
+  }
+
+  const privateKey = parsePrivateKeyInput(keyInput);
   return { projectId, databaseId, clientEmail, privateKey };
 }
 
@@ -83,7 +101,7 @@ async function getAccessToken() {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      grant_type: 'urn:ietf:params:oauth2:grant-type:jwt-bearer',
       assertion,
     }),
   });
