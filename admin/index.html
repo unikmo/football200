@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="color-scheme" content="light">
+  <title>Football200 Admin · Preview</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <div class="preview-bar">Football200 Admin · Preview only · protected staging environment</div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Admin Navigation">
+      <a class="brand" href="/admin/" aria-label="Football200 Admin Startseite">
+        <span class="brand-mark" aria-hidden="true">F200</span>
+        <span><strong>Football200</strong><small>Operations</small></span>
+      </a>
+      <nav class="nav-list">
+        <button class="nav-item is-active" data-view="overview"><span>Übersicht</span><kbd>1</kbd></button>
+        <button class="nav-item" data-view="orders"><span>Bestellungen</span><kbd>2</kbd></button>
+        <button class="nav-item" data-view="certificates"><span>Zertifikate</span><kbd>3</kbd></button>
+        <button class="nav-item" data-view="clubs"><span>Vereine</span><kbd>4</kbd></button>
+        <button class="nav-item" data-view="leads"><span>Anfragen</span><kbd>5</kbd></button>
+      </nav>
+      <div class="sidebar-foot">
+        <span class="status-dot"></span>
+        <span>Firebase Preview</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Operations Console</p>
+          <h1 id="viewTitle">Übersicht</h1>
+        </div>
+        <div class="top-actions">
+          <span class="updated" id="updatedAt">Noch nicht geladen</span>
+          <button class="button button-secondary" id="refreshButton" type="button">Aktualisieren</button>
+        </div>
+      </header>
+
+      <div class="notice" role="note">
+        <strong>Staging-Modus.</strong> Zahlungsstatus ist bewusst schreibgeschützt. Zertifikatstatus kann in diesem Preview kontrolliert fortgeschrieben werden. Produktionsbetrieb bleibt deaktiviert.
+      </div>
+
+      <section class="view is-active" data-panel="overview" aria-labelledby="viewTitle">
+        <div class="metrics" id="metrics"></div>
+        <div class="content-grid">
+          <section class="panel attention-panel">
+            <div class="panel-head">
+              <div><p class="eyebrow">Priorität</p><h2>Benötigt Aufmerksamkeit</h2></div>
+              <span class="count-badge" id="attentionCount">0</span>
+            </div>
+            <div id="attentionList" class="attention-list"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><p class="eyebrow">Neueste Aktivität</p><h2>Bestellungen</h2></div><button class="text-button" data-go="orders">Alle ansehen</button></div>
+            <div id="recentOrders"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" data-panel="orders">
+        <section class="panel table-panel">
+          <div class="panel-head panel-head-wrap">
+            <div><p class="eyebrow">Finanzen</p><h2>Bestellungen & Sponsorships</h2></div>
+            <div class="filters">
+              <label class="search"><span class="sr-only">Bestellungen durchsuchen</span><input id="orderSearch" type="search" placeholder="Sponsor, Verein, Bestellnr. suchen"></label>
+              <select id="orderFilter" aria-label="Zahlungsstatus filtern">
+                <option value="all">Alle Zahlungsstatus</option>
+                <option value="paid">Bezahlt</option>
+                <option value="pending">Ausstehend</option>
+                <option value="failed">Fehlgeschlagen</option>
+                <option value="refunded">Erstattet</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Bestellung</th><th>Sponsor</th><th>Verein</th><th>Level</th><th class="num">Betrag</th><th>Zahlung</th><th>Zertifikat</th><th>Datum</th></tr></thead><tbody id="ordersBody"></tbody></table></div>
+          <div class="empty" id="ordersEmpty" hidden></div>
+        </section>
+      </section>
+
+      <section class="view" data-panel="certificates">
+        <section class="panel table-panel">
+          <div class="panel-head panel-head-wrap">
+            <div><p class="eyebrow">Fulfilment</p><h2>Zertifikate</h2></div>
+            <div class="filters">
+              <label class="search"><span class="sr-only">Zertifikate durchsuchen</span><input id="certificateSearch" type="search" placeholder="Sponsor, Verein, Zertifikat suchen"></label>
+              <select id="certificateFilter" aria-label="Zertifikatstatus filtern">
+                <option value="all">Alle Status</option>
+                <option value="pending">Pending</option>
+                <option value="generated">Generated</option>
+                <option value="sent">Sent</option>
+                <option value="failed">Failed</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Zertifikat</th><th>Sponsor</th><th>Verein</th><th>Empfänger</th><th>Status</th><th>Aktualisiert</th><th class="actions-col">Aktion</th></tr></thead><tbody id="certificatesBody"></tbody></table></div>
+          <div class="empty" id="certificatesEmpty" hidden></div>
+        </section>
+      </section>
+
+      <section class="view" data-panel="clubs">
+        <section class="panel table-panel">
+          <div class="panel-head"><div><p class="eyebrow">Programm</p><h2>Vereine & Saisonkapazität</h2></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Verein</th><th>Ort</th><th>Saison</th><th>Status</th><th class="num">Freigegeben</th><th class="num">Gesponsert</th><th class="num">Verfügbar</th></tr></thead><tbody id="clubsBody"></tbody></table></div>
+          <div class="empty" id="clubsEmpty" hidden></div>
+        </section>
+      </section>
+
+      <section class="view" data-panel="leads">
+        <div class="content-grid">
+          <section class="panel table-panel">
+            <div class="panel-head"><div><p class="eyebrow">Inbox</p><h2>Sponsorenanfragen</h2></div></div>
+            <div class="table-wrap"><table><thead><tr><th>Unternehmen</th><th>Kontakt</th><th>Verein</th><th>Interesse</th><th>Status</th><th>Datum</th></tr></thead><tbody id="sponsorLeadsBody"></tbody></table></div>
+            <div class="empty" id="sponsorLeadsEmpty" hidden></div>
+          </section>
+          <section class="panel table-panel">
+            <div class="panel-head"><div><p class="eyebrow">Inbox</p><h2>Vereinsanfragen</h2></div></div>
+            <div class="table-wrap"><table><thead><tr><th>Verein</th><th>Kontakt</th><th>Ort/Liga</th><th class="num">Kapazität</th><th>Status</th><th>Datum</th></tr></thead><tbody id="clubLeadsBody"></tbody></table></div>
+            <div class="empty" id="clubLeadsEmpty" hidden></div>
+          </section>
+        </div>
+      </section>
+
+      <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    </main>
+  </div>
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>
