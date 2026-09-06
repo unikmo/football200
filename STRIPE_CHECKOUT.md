@@ -26,6 +26,8 @@
 
 Firebase Preview credentials remain unchanged.
 
+After changing Preview environment variables, redeploy the branch before runtime verification so the deployment receives the updated secrets.
+
 ## Production boundary
 
 This branch is Preview-only. Production checkout, production webhook routing, live Stripe keys, legal/tax/invoicing rules, production admin authentication and release QA require separate approval.
