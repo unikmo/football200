@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 
 const STRIPE_API = 'https://api.stripe.com/v1';
+const STRIPE_EXPECTED_ACCOUNT_ID = 'acct_1UCe5VGqzoOGCYe0';
+let verifiedAccount = null;
 
 function getStripeSecret() {
   const key = String(process.env.STRIPE_SECRET_KEY || '').trim();
@@ -17,10 +19,13 @@ function getStripeSecret() {
   return key;
 }
 
-async function stripeGet(path) {
+async function stripeFetch(path, options = {}) {
   const response = await fetch(`${STRIPE_API}${path}`, {
-    method: 'GET',
-    headers: { authorization: `Bearer ${getStripeSecret()}` },
+    ...options,
+    headers: {
+      authorization: `Bearer ${getStripeSecret()}`,
+      ...(options.headers || {}),
+    },
   });
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
@@ -32,24 +37,34 @@ async function stripeGet(path) {
   return body;
 }
 
+async function verifyStripeAccount() {
+  if (verifiedAccount?.id === STRIPE_EXPECTED_ACCOUNT_ID) return verifiedAccount;
+  const account = await stripeFetch('/account', { method: 'GET' });
+  if (account.id !== STRIPE_EXPECTED_ACCOUNT_ID) {
+    const error = new Error('Stripe key belongs to a different account');
+    error.code = 'STRIPE_ACCOUNT_MISMATCH';
+    error.actualAccountId = account.id || '';
+    throw error;
+  }
+  verifiedAccount = { id: account.id, country: account.country || '', defaultCurrency: account.default_currency || '' };
+  return verifiedAccount;
+}
+
+async function stripeGet(path) {
+  await verifyStripeAccount();
+  return stripeFetch(path, { method: 'GET' });
+}
+
 async function stripePost(path, params, idempotencyKey = '') {
-  const response = await fetch(`${STRIPE_API}${path}`, {
+  await verifyStripeAccount();
+  return stripeFetch(path, {
     method: 'POST',
     headers: {
-      authorization: `Bearer ${getStripeSecret()}`,
       'content-type': 'application/x-www-form-urlencoded',
       ...(idempotencyKey ? { 'idempotency-key': idempotencyKey } : {}),
     },
     body: new URLSearchParams(params),
   });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const error = new Error(body?.error?.message || `Stripe request failed (${response.status})`);
-    error.code = 'STRIPE_REQUEST_FAILED';
-    error.status = response.status;
-    throw error;
-  }
-  return body;
 }
 
 function verifyWebhookSignature(rawBody, signatureHeader, secret, toleranceSeconds = 300) {
@@ -82,4 +97,12 @@ function readRawBody(req, maxBytes = 1024 * 1024) {
   });
 }
 
-module.exports = { getStripeSecret, stripeGet, stripePost, verifyWebhookSignature, readRawBody };
+module.exports = {
+  STRIPE_EXPECTED_ACCOUNT_ID,
+  getStripeSecret,
+  verifyStripeAccount,
+  stripeGet,
+  stripePost,
+  verifyWebhookSignature,
+  readRawBody,
+};
