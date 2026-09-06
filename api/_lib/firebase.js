@@ -231,6 +231,19 @@ async function createDocument(collection, data, documentId) {
   return decodeDocument(body);
 }
 
+async function updateDocument(collection, documentId, data) {
+  const safe = safeCollection(collection);
+  const id = encodeURIComponent(String(documentId));
+  const keys = Object.keys(data || {});
+  if (!keys.length) throw new Error('No Firestore fields supplied for update');
+  const mask = keys.map(key => `updateMask.fieldPaths=${encodeURIComponent(key)}`).join('&');
+  const body = await firestoreRequest(`${safe}/${id}?${mask}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ fields: encodeFields(data) }),
+  });
+  return decodeDocument(body);
+}
+
 module.exports = {
   getFirebaseConfig,
   getAccessToken,
@@ -242,4 +255,5 @@ module.exports = {
   listDocuments,
   getDocument,
   createDocument,
+  updateDocument,
 };
