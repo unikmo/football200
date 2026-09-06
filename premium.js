@@ -2,6 +2,14 @@ document.querySelectorAll('[data-menu]').forEach(btn=>btn.addEventListener('clic
 
 (function(){
   const page=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+
+  if(page==='unternehmen.html'){
+    document.querySelectorAll('a[href="#form"]').forEach(link=>{
+      link.href='/sponsor/checkout.html';
+      if(link.textContent.includes('Sponsor werden')) link.setAttribute('aria-label','Sponsor werden und Stripe Test-Checkout öffnen');
+    });
+  }
+
   const configs={
     'verein.html':{
       endpoint:'/api/interest/club',
@@ -48,7 +56,7 @@ document.querySelectorAll('[data-menu]').forEach(btn=>btn.addEventListener('clic
         const body=await response.json().catch(()=>({}));
         if(!response.ok||!body.ok) throw new Error(body.error||'REQUEST_FAILED');
         if(success){success.textContent=config.success;success.style.display='block';}
-        if(note) note.textContent='Preview-Demo · keine Zahlung und kein Produktionsbetrieb';
+        if(note) note.textContent='Preview-Demo · keine Zahlung aus diesem Kontaktformular';
         form.reset();
       }catch(error){
         if(note) note.textContent='Übertragung fehlgeschlagen. Bitte später erneut versuchen.';
