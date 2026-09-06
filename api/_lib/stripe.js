@@ -17,6 +17,21 @@ function getStripeSecret() {
   return key;
 }
 
+async function stripeGet(path) {
+  const response = await fetch(`${STRIPE_API}${path}`, {
+    method: 'GET',
+    headers: { authorization: `Bearer ${getStripeSecret()}` },
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(body?.error?.message || `Stripe request failed (${response.status})`);
+    error.code = 'STRIPE_REQUEST_FAILED';
+    error.status = response.status;
+    throw error;
+  }
+  return body;
+}
+
 async function stripePost(path, params, idempotencyKey = '') {
   const response = await fetch(`${STRIPE_API}${path}`, {
     method: 'POST',
@@ -67,4 +82,4 @@ function readRawBody(req, maxBytes = 1024 * 1024) {
   });
 }
 
-module.exports = { getStripeSecret, stripePost, verifyWebhookSignature, readRawBody };
+module.exports = { getStripeSecret, stripeGet, stripePost, verifyWebhookSignature, readRawBody };
