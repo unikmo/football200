@@ -202,11 +202,39 @@ function safeCollection(collection) {
   return collection;
 }
 
-async function listDocuments(collection, pageSize = 20) {
+async function listDocumentsPage(collection, pageSize = 20, pageToken = '') {
   const safe = safeCollection(collection);
   const size = Math.max(1, Math.min(Number(pageSize) || 20, 100));
-  const body = await firestoreRequest(`${safe}?pageSize=${size}`);
-  return (body.documents || []).map(decodeDocument);
+  const params = new URLSearchParams({ pageSize: String(size) });
+  if (pageToken) params.set('pageToken', String(pageToken));
+  const body = await firestoreRequest(`${safe}?${params.toString()}`);
+  return {
+    documents: (body.documents || []).map(decodeDocument),
+    nextPageToken: body.nextPageToken || '',
+  };
+}
+
+async function listDocuments(collection, pageSize = 20) {
+  const page = await listDocumentsPage(collection, pageSize);
+  return page.documents;
+}
+
+async function listAllDocuments(collection, options = {}) {
+  const pageSize = Math.max(1, Math.min(Number(options.pageSize) || 100, 100));
+  const maxPages = Math.max(1, Math.min(Number(options.maxPages) || 100, 100));
+  const documents = [];
+  let pageToken = '';
+
+  for (let page = 0; page < maxPages; page += 1) {
+    const result = await listDocumentsPage(collection, pageSize, pageToken);
+    documents.push(...result.documents);
+    if (!result.nextPageToken) return documents;
+    pageToken = result.nextPageToken;
+  }
+
+  const error = new Error(`Firestore admin read exceeded ${pageSize * maxPages} documents for ${collection}`);
+  error.code = 'FIRESTORE_ADMIN_RESULT_LIMIT';
+  throw error;
 }
 
 async function getDocument(collection, documentId) {
@@ -252,7 +280,9 @@ module.exports = {
   encodeFields,
   decodeFields,
   decodeDocument,
+  listDocumentsPage,
   listDocuments,
+  listAllDocuments,
   getDocument,
   createDocument,
   updateDocument,

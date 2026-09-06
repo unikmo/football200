@@ -1,4 +1,4 @@
-const { listDocuments } = require('../_lib/firebase');
+const { listAllDocuments } = require('../_lib/firebase');
 const { sendJson, previewWritesAllowed } = require('../_lib/http');
 const { summarizeAdminData } = require('../_lib/admin');
 
@@ -8,11 +8,11 @@ module.exports = async function handler(req, res) {
 
   try {
     const [orders, certificates, sponsorLeads, clubLeads, clubs] = await Promise.all([
-      listDocuments('sponsorships', 100),
-      listDocuments('certificates', 100),
-      listDocuments('sponsor_interest', 100),
-      listDocuments('club_interest', 100),
-      listDocuments('clubs', 100),
+      listAllDocuments('sponsorships'),
+      listAllDocuments('certificates'),
+      listAllDocuments('sponsor_interest'),
+      listAllDocuments('club_interest'),
+      listAllDocuments('clubs'),
     ]);
 
     const data = summarizeAdminData({ orders, certificates, sponsorLeads, clubLeads, clubs });
