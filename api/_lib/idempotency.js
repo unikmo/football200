@@ -9,14 +9,17 @@ function stableHash(parts) {
   return crypto.createHash('sha256').update(parts.map(v => String(v ?? '')).join('|')).digest('hex');
 }
 
-function checkoutIdentity(prefix, suppliedRequestId, fingerprintParts = []) {
-  const requestId = normalizeRequestId(suppliedRequestId) || crypto.randomUUID();
-  const digest = stableHash([prefix, requestId, ...fingerprintParts]);
-  return {
-    requestId,
-    intentId: `F200I-${digest.slice(0, 24)}`,
-    stripeKey: `football200:${prefix}:${digest}`,
-  };
+function identityFromDigest(prefix, digest, requestId = '') {
+  return { requestId, intentId: `F200I-${digest.slice(0, 24)}`, stripeKey: `football200:${prefix}:${digest}` };
 }
 
-module.exports = { normalizeRequestId, checkoutIdentity };
+function checkoutIdentity(prefix, suppliedRequestId, fingerprintParts = []) {
+  const requestId = normalizeRequestId(suppliedRequestId) || crypto.randomUUID();
+  return identityFromDigest(prefix, stableHash([prefix, requestId, ...fingerprintParts]), requestId);
+}
+
+function productIdentity(prefix, fingerprintParts = []) {
+  return identityFromDigest(prefix, stableHash([prefix, ...fingerprintParts]));
+}
+
+module.exports = { normalizeRequestId, stableHash, checkoutIdentity, productIdentity };
