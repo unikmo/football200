@@ -1,5 +1,6 @@
 const { listAllDocuments, getDocument, updateDocument, createDocument } = require('../_lib/firebase');
 const { sendJson, readJsonBody, previewWritesAllowed, text } = require('../_lib/http');
+const { requireAdmin } = require('../_lib/admin-auth');
 
 function cleanWebsite(value) {
   const raw = text(value, 300);
@@ -8,6 +9,7 @@ function cleanWebsite(value) {
 }
 
 module.exports = async function handler(req, res) {
+  if (!requireAdmin(req, res).ok) return;
   if (req.method === 'GET') {
     try {
       const items = (await listAllDocuments('sponsorships')).map(item => ({
