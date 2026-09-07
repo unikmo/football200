@@ -27,6 +27,7 @@ module.exports = async function handler(req, res) {
   if (!stripeConfigured) blockers.push('STRIPE_NOT_CONFIGURED');
   if (!stripeExpectedAccountConfigured) blockers.push('STRIPE_EXPECTED_ACCOUNT_NOT_CONFIGURED');
   if (!webhookConfigured) blockers.push('STRIPE_WEBHOOK_NOT_CONFIGURED');
+  if (!state.distributedAbuseControlsReady) blockers.push('DISTRIBUTED_ABUSE_CONTROLS_NOT_READY');
   if (!state.publicReleaseEnabled) blockers.push('PUBLIC_RELEASE_NOT_APPROVED');
   if (!state.legalReleaseApproved) blockers.push('LEGAL_RELEASE_NOT_APPROVED');
   if (!state.paymentsReleaseApproved) blockers.push('PAYMENTS_RELEASE_NOT_APPROVED');
@@ -45,6 +46,7 @@ module.exports = async function handler(req, res) {
       minorDataReleaseApproved: state.minorDataReleaseApproved,
       analyticsReleaseApproved: state.analyticsReleaseApproved,
       analyticsConsentReady: state.analyticsConsentReady,
+      distributedAbuseControlsReady: state.distributedAbuseControlsReady,
     },
     services: {
       firebaseConfigured,
@@ -52,8 +54,9 @@ module.exports = async function handler(req, res) {
       email,
       stripe: { configured: stripeConfigured, webhookConfigured, expectedAccountConfigured: stripeExpectedAccountConfigured, expectedAccountId: stripeExpectedAccountId, expectedMode: expectedStripeLivemode() === true ? 'live' : 'test' },
       analyticsProviderConfigured,
+      distributedAbuseControlsReady: state.distributedAbuseControlsReady,
     },
-    implementation: { minorData: 'synthetic-only', analytics: 'local-event-layer-ready' },
+    implementation: { minorData: 'synthetic-only', analytics: 'local-event-layer-ready', localRateLimit: 'defense-in-depth-only' },
     readiness: { productionReady: state.production && blockers.length === 0, blockers },
   });
 };
