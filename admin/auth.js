@@ -1,0 +1,1 @@
+(async()=>{if(location.pathname.endsWith('/login.html'))return;try{const r=await fetch('/api/admin/session',{credentials:'same-origin'});const b=await r.json();if(!b.authenticated)location.replace('/admin/login.html?next='+encodeURIComponent(location.pathname+location.search));}catch{location.replace('/admin/login.html')}})();
