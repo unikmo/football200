@@ -1,5 +1,6 @@
 const { getDocument, listAllDocuments } = require('../_lib/firebase');
 const { sendJson } = require('../_lib/http');
+const { recordAllowedForEnvironment } = require('../_lib/release');
 
 function query(req, key) {
   try { return new URL(req.url, 'http://localhost').searchParams.get(key) || ''; } catch { return ''; }
@@ -11,9 +12,10 @@ module.exports = async function handler(req, res) {
     const clubId = String(query(req, 'clubId')).trim().slice(0, 180);
     if (!clubId) return sendJson(res, 400, { ok: false, error: 'CLUB_REQUIRED' });
     const club = await getDocument('clubs', clubId);
-    if (!club || club.status !== 'active') return sendJson(res, 404, { ok: false, error: 'CLUB_NOT_FOUND' });
+    if (!club || club.status !== 'active' || !recordAllowedForEnvironment(club)) return sendJson(res, 404, { ok: false, error: 'CLUB_NOT_FOUND' });
 
     const sponsorships = (await listAllDocuments('sponsorships'))
+      .filter(item => recordAllowedForEnvironment(item))
       .filter(item => item.clubId === clubId && item.paymentStatus === 'paid')
       .filter(item => item.publicListingConsent === true && item.publicListingApproved === true)
       .map(item => ({
@@ -31,18 +33,8 @@ module.exports = async function handler(req, res) {
     const sponsored = Number(club.sponsoredPlaces || 0);
     return sendJson(res, 200, {
       ok: true,
-      club: {
-        id: club.id,
-        name: String(club.name || ''),
-        city: String(club.city || ''),
-        season: String(club.season || ''),
-        releasedPlaces: released,
-        sponsoredPlaces: sponsored,
-        remainingPlaces: Math.max(0, released - sponsored),
-      },
+      club: { id: club.id, name: String(club.name || ''), city: String(club.city || ''), season: String(club.season || ''), releasedPlaces: released, sponsoredPlaces: sponsored, remainingPlaces: Math.max(0, released - sponsored) },
       sponsors: sponsorships,
     });
-  } catch (error) {
-    return sendJson(res, 500, { ok: false, error: error.code || 'PUBLIC_SPONSORS_READ_FAILED' });
-  }
+  } catch (error) { return sendJson(res, 500, { ok: false, error: error.code || 'PUBLIC_SPONSORS_READ_FAILED' }); }
 };

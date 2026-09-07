@@ -7,6 +7,17 @@ function environmentName() {
   return process.env.VERCEL_ENV || 'development';
 }
 
+function syntheticTestForEnvironment(environment = environmentName()) {
+  return environment !== 'production';
+}
+
+function recordAllowedForEnvironment(record, environment = environmentName()) {
+  if (!record || typeof record !== 'object') return false;
+  if (environment === 'production') return record.syntheticTest === false;
+  if (environment === 'preview' || environment === 'test' || environment === 'development') return record.syntheticTest !== false;
+  return false;
+}
+
 function releaseState() {
   const environment = environmentName();
   const preview = environment === 'preview';
@@ -66,4 +77,4 @@ function sourceTag(base) {
   return `${base}-${env}`;
 }
 
-module.exports = { flag, environmentName, releaseState, writeAllowed, expectedStripeLivemode, sourceTag };
+module.exports = { flag, environmentName, syntheticTestForEnvironment, recordAllowedForEnvironment, releaseState, writeAllowed, expectedStripeLivemode, sourceTag };

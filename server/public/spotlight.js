@@ -1,16 +1,18 @@
 const { listAllDocuments, getDocument } = require('../_lib/firebase');
 const { sendJson } = require('../_lib/http');
+const { recordAllowedForEnvironment } = require('../_lib/release');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: 'METHOD_NOT_ALLOWED' });
   try {
     const now = Date.now();
     const active = (await listAllDocuments('sponsor_spotlights'))
+      .filter(item => recordAllowedForEnvironment(item))
       .filter(item => Date.parse(item.startAt) <= now && Date.parse(item.endAt) >= now)
       .sort((a, b) => String(b.startAt || '').localeCompare(String(a.startAt || '')))[0];
     if (!active) return sendJson(res, 200, { ok: true, spotlight: null });
     const sponsor = await getDocument('sponsorships', active.sponsorshipId);
-    if (!sponsor || sponsor.publicListingConsent !== true || sponsor.publicListingApproved !== true || sponsor.paymentStatus !== 'paid') return sendJson(res, 200, { ok: true, spotlight: null });
+    if (!sponsor || !recordAllowedForEnvironment(sponsor) || sponsor.publicListingConsent !== true || sponsor.publicListingApproved !== true || sponsor.paymentStatus !== 'paid') return sendJson(res, 200, { ok: true, spotlight: null });
     return sendJson(res, 200, { ok: true, spotlight: {
       company: sponsor.company || sponsor.sponsorName || '', city: sponsor.city || '', website: sponsor.website || '',
       clubName: sponsor.clubName || '', levelName: sponsor.levelName || '', children: Number(sponsor.children || 0),
