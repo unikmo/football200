@@ -1,0 +1,1 @@
+const {sendJson}=require('../_lib/http');const {authStatus}=require('../_lib/admin-auth');module.exports=async function handler(req,res){if(req.method!=='GET')return sendJson(res,405,{ok:false,error:'METHOD_NOT_ALLOWED'});return sendJson(res,200,{ok:true,...authStatus(req)})};
