@@ -1,7 +1,9 @@
 const { getDocument, updateDocument, createDocument } = require('../_lib/firebase');
 const { sendJson, readJsonBody, previewWritesAllowed, text } = require('../_lib/http');
 const { sendCertificateEmail } = require('../_lib/email');
+const { requireAdmin } = require('../_lib/admin-auth');
 module.exports=async function handler(req,res){
+  if(!requireAdmin(req,res).ok)return;
   if(req.method!=='POST') return sendJson(res,405,{ok:false,error:'METHOD_NOT_ALLOWED'});
   if(!previewWritesAllowed()) return sendJson(res,403,{ok:false,error:'PREVIEW_ONLY'});
   try{
