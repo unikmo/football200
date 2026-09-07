@@ -6,7 +6,7 @@ This file describes the explicit production gates. Presence of code or a success
 
 - `PUBLIC_RELEASE_ENABLED=true` — explicit public release approval.
 - `PUBLIC_INDEXING_ENABLED=true` — explicit SEO indexing approval.
-- `LEGAL_RELEASE_APPROVED=true` — operator/legal documents have been supplied and qualified review completed. A production public build now fails if `impressum.html` or `datenschutz.html` is missing or still contains a release/legal-review placeholder.
+- `LEGAL_RELEASE_APPROVED=true` — operator/legal documents have been supplied and qualified review completed. A public production build fails unless all six legal surfaces are present and free of the known release/review placeholders: Impressum, Datenschutz, Teilnahmebedingungen, Sponsoringbedingungen, Vereinsvereinbarung, and the Rechtliches hub.
 - `PAYMENTS_RELEASE_APPROVED=true` — live Stripe checkout/webhook activation approved.
 - `PRODUCTION_OPERATIONS_ENABLED=true` — production admin mutations approved.
 - `MINOR_DATA_RELEASE_APPROVED=true` — qualified legal/safeguarding approval for real minor data. This flag alone is insufficient while the application code remains synthetic-only.
@@ -44,7 +44,7 @@ The visitor can later reopen privacy settings and revoke optional analytics cons
 
 ## Current hard blockers
 
-- `impressum.html` and `datenschutz.html` are currently release-gate placeholders. They must be replaced with supplied/reviewed legal content before a public production build can pass.
+- All six legal pages are currently release-gate placeholders. They must be replaced with supplied/reviewed legal content before a public production build can pass.
 - Real child/minor data is still intentionally synthetic-only. Do not set `MINOR_DATA_RELEASE_APPROVED=true` as a substitute for implementing and legally reviewing the real workflow.
 - Distributed production abuse controls must be configured outside the process-local limiter and verified before the corresponding release flag is enabled.
 - Live Stripe, email, legal, analytics configuration and post-deployment browser verification remain release-time gates.

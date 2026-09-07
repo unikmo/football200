@@ -19,7 +19,7 @@ const analyticsNetworkEnabled = canIndex && analyticsApproved && analyticsConsen
 const host = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'football200.vercel.app';
 const base = /^https?:\/\//.test(host) ? host.replace(/\/$/, '') : `https://${host}`;
 
-const requiredLegalFiles = ['impressum.html', 'datenschutz.html'];
+const requiredLegalFiles = ['impressum.html', 'datenschutz.html', 'teilnahmebedingungen.html', 'sponsoringbedingungen.html', 'vereinsvereinbarung.html', 'rechtliches.html'];
 const legalPlaceholderPatterns = [/REQUIRES QUALIFIED LEGAL REVIEW/i, /NICHT PRODUKTIONSFREIGEGEBEN/i, /Release Gate/i];
 function assertLegalReleaseSurfaces() {
   if (!productionRuntime) return;
