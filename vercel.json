@@ -1,6 +1,26 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {"source":"/api/admin/overview","destination":"/api/admin?route=overview"},
+    {"source":"/api/admin/certificate-status","destination":"/api/admin?route=certificate-status"},
+    {"source":"/api/admin/certificate-delivery","destination":"/api/admin?route=certificate-delivery"},
+    {"source":"/api/admin/child-selection","destination":"/api/admin?route=child-selection"},
+    {"source":"/api/admin/email-health","destination":"/api/admin?route=email-health"},
+    {"source":"/api/admin/login","destination":"/api/admin?route=login"},
+    {"source":"/api/admin/logout","destination":"/api/admin?route=logout"},
+    {"source":"/api/admin/schools","destination":"/api/admin?route=schools"},
+    {"source":"/api/admin/session","destination":"/api/admin?route=session"},
+    {"source":"/api/admin/sponsor-publication","destination":"/api/admin?route=sponsor-publication"},
+    {"source":"/api/admin/spotlight","destination":"/api/admin?route=spotlight"},
+    {"source":"/api/clubs","destination":"/api/read?route=clubs"},
+    {"source":"/api/programme","destination":"/api/read?route=programme"},
+    {"source":"/api/schools","destination":"/api/read?route=schools"},
+    {"source":"/api/health/firebase","destination":"/api/read?route=health%2Ffirebase"},
+    {"source":"/api/certificates/public","destination":"/api/read?route=certificates%2Fpublic"},
+    {"source":"/api/public/club-sponsors","destination":"/api/read?route=public%2Fclub-sponsors"},
+    {"source":"/api/public/spotlight","destination":"/api/read?route=public%2Fspotlight"}
+  ],
   "headers": [
     {
       "source": "/(.*)",
