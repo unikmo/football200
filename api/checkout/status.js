@@ -6,9 +6,8 @@ module.exports = async function handler(req, res) {
   try {
     const sessionId = text(req.query?.session_id, 200);
     if (!/^cs_[A-Za-z0-9_]+$/.test(sessionId)) return sendJson(res, 400, { ok: false, error: 'INVALID_SESSION_ID' });
-    const order = await getDocument('sponsorships', sessionId);
-    if (!order) return sendJson(res, 202, { ok: true, fulfilled: false });
-    return sendJson(res, 200, {
+    const [order, paymentException] = await Promise.all([getDocument('sponsorships', sessionId), getDocument('payment_exceptions', sessionId)]);
+    if (order) return sendJson(res, 200, {
       ok: true,
       fulfilled: true,
       order: {
@@ -23,6 +22,11 @@ module.exports = async function handler(req, res) {
         certificateStatus: order.certificateStatus,
       },
     });
+    if (paymentException) {
+      const refundStatus = String(paymentException.refundStatus || 'pending_request').toLowerCase();
+      return sendJson(res, 200, { ok: true, fulfilled: false, paymentException: true, refundStatus, refunded: refundStatus === 'succeeded' });
+    }
+    return sendJson(res, 202, { ok: true, fulfilled: false });
   } catch (error) {
     return sendJson(res, 500, { ok: false, error: error.code || 'CHECKOUT_STATUS_FAILED' });
   }

@@ -1,196 +1,22 @@
 const state = { data: null, view: 'overview', orderSearch: '', orderFilter: 'all', certificateSearch: '', certificateFilter: 'all' };
-
 const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 const integer = new Intl.NumberFormat('de-DE');
 const dateTime = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeStyle: 'short' });
-
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
-}
-
-function formatDate(value) {
-  if (!value) return '—';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? '—' : dateTime.format(date);
-}
-
-function statusBadge(status) {
-  const safe = String(status || 'unknown').toLowerCase();
-  return `<span class="status status-${escapeHtml(safe)}">${escapeHtml(safe)}</span>`;
-}
-
-function showToast(message, isError = false) {
-  const toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.className = `toast is-visible${isError ? ' is-error' : ''}`;
-  clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => { toast.className = 'toast'; }, 3200);
-}
-
-function setView(view) {
-  state.view = view;
-  document.querySelectorAll('.nav-item').forEach(button => button.classList.toggle('is-active', button.dataset.view === view));
-  document.querySelectorAll('.view').forEach(panel => panel.classList.toggle('is-active', panel.dataset.panel === view));
-  const titles = { overview: 'Übersicht', orders: 'Bestellungen', certificates: 'Zertifikate', clubs: 'Vereine', leads: 'Anfragen' };
-  document.getElementById('viewTitle').textContent = titles[view] || 'Übersicht';
-}
-
-function renderMetrics() {
-  const summary = state.data.summary;
-  const metrics = [
-    ['Bezahlter Umsatz', euro.format(summary.paidRevenue), `${integer.format(summary.paidOrders)} bezahlte Bestellungen`, ''],
-    ['Gesponserte Kinder', integer.format(summary.sponsoredChildren), 'aus bezahlten Sponsorships', ''],
-    ['Zertifikate offen', integer.format(summary.certificates.pending + summary.certificates.generated), `${integer.format(summary.certificates.sent)} gesendet`, ''],
-    ['Benötigt Aufmerksamkeit', integer.format(summary.attention), `${integer.format(summary.certificates.failed)} Zertifikatfehler`, 'attention'],
-  ];
-  document.getElementById('metrics').innerHTML = metrics.map(([label, value, foot, className]) => `
-    <article class="metric ${className}"><div class="metric-label">${label}</div><div class="metric-value">${value}</div><div class="metric-foot">${foot}</div></article>`).join('');
-}
-
-function renderAttention() {
-  const items = [];
-  state.data.certificates.filter(item => item.status === 'failed').slice(0, 4).forEach(item => items.push({ failed: true, icon: '!', title: `${item.company || 'Zertifikat'} fehlgeschlagen`, meta: item.lastError || 'Prüfung erforderlich', view: 'certificates' }));
-  state.data.certificates.filter(item => ['pending', 'generated'].includes(item.status)).slice(0, 4).forEach(item => items.push({ icon: 'C', title: `${item.company || 'Zertifikat'} · ${item.status}`, meta: item.club || item.recipientEmail || 'Noch nicht abgeschlossen', view: 'certificates' }));
-  state.data.sponsorLeads.filter(item => item.status === 'new').slice(0, 2).forEach(item => items.push({ icon: 'S', title: `Neue Sponsorenanfrage · ${item.name}`, meta: item.club || item.city || item.email, view: 'leads' }));
-  state.data.clubLeads.filter(item => item.status === 'new').slice(0, 2).forEach(item => items.push({ icon: 'V', title: `Neue Vereinsanfrage · ${item.name}`, meta: item.city || item.email, view: 'leads' }));
-
-  document.getElementById('attentionCount').textContent = state.data.summary.attention;
-  const container = document.getElementById('attentionList');
-  if (!items.length) {
-    container.innerHTML = '<div class="empty"><strong>Alles im grünen Bereich</strong>Keine offenen Zertifikat- oder Lead-Aufgaben.</div>';
-    return;
-  }
-  container.innerHTML = items.slice(0, 8).map(item => `
-    <div class="attention-item ${item.failed ? 'is-failed' : ''}">
-      <div class="attention-icon">${item.icon}</div><div><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.meta)}</span></div>
-      <button type="button" data-go="${item.view}">Öffnen</button>
-    </div>`).join('');
-}
-
-function renderRecentOrders() {
-  const orders = state.data.orders.slice(0, 5);
-  const container = document.getElementById('recentOrders');
-  if (!orders.length) {
-    container.innerHTML = '<div class="empty"><strong>Noch keine Bestellungen</strong>Der Checkout ist noch nicht angeschlossen. Sponsorenanfragen erscheinen unter „Anfragen“.</div>';
-    return;
-  }
-  container.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Bestellung</th><th>Sponsor</th><th class="num">Betrag</th><th>Zahlung</th></tr></thead><tbody>${orders.map(order => `<tr><td class="mono">${escapeHtml(order.orderNumber)}</td><td>${escapeHtml(order.company || '—')}<span class="subtle">${escapeHtml(order.club || '')}</span></td><td class="num">${euro.format(order.amount)}</td><td>${statusBadge(order.paymentStatus)}</td></tr>`).join('')}</tbody></table></div>`;
-}
-
-function renderOrders() {
-  const query = state.orderSearch.trim().toLowerCase();
-  const rows = state.data.orders.filter(order => {
-    const matchesSearch = !query || [order.orderNumber, order.company, order.club, order.email].join(' ').toLowerCase().includes(query);
-    const matchesFilter = state.orderFilter === 'all' || order.paymentStatus === state.orderFilter || (state.orderFilter === 'paid' && ['paid','succeeded','complete','completed'].includes(order.paymentStatus));
-    return matchesSearch && matchesFilter;
-  });
-  const body = document.getElementById('ordersBody');
-  const empty = document.getElementById('ordersEmpty');
-  body.innerHTML = rows.map(order => `<tr>
-    <td><span class="mono">${escapeHtml(order.orderNumber)}</span><span class="subtle">${escapeHtml(order.id)}</span></td>
-    <td>${escapeHtml(order.company || '—')}<span class="subtle">${escapeHtml(order.email || '')}</span></td>
-    <td>${escapeHtml(order.club || '—')}</td><td>${escapeHtml(order.level || '—')}<span class="subtle">${integer.format(order.children)} Kinder</span></td>
-    <td class="num">${euro.format(order.amount)}</td><td>${statusBadge(order.paymentStatus)}</td><td>${statusBadge(order.certificateStatus || 'unknown')}</td><td>${formatDate(order.createdAt)}</td>
-  </tr>`).join('');
-  empty.hidden = rows.length > 0;
-  if (!rows.length) empty.innerHTML = state.data.orders.length ? '<strong>Keine Treffer</strong>Filter oder Suche anpassen.' : '<strong>Noch keine Bestellungen</strong>Bestellungen erscheinen hier automatisch, sobald der Sponsor-Checkout angeschlossen ist.';
-}
-
-function certificateActions(certificate) {
-  if (certificate.status === 'pending') return `<button class="row-action" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="generated">Als generated</button><button class="row-action" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="failed">Fehler</button>`;
-  if (certificate.status === 'generated') return `<button class="row-action primary" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="sent">Als sent</button><button class="row-action" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="failed">Fehler</button>`;
-  if (certificate.status === 'failed') return `<button class="row-action primary" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="pending">Retry</button>`;
-  return '<span class="subtle">Abgeschlossen</span>';
-}
-
-function renderCertificates() {
-  const query = state.certificateSearch.trim().toLowerCase();
-  const rows = state.data.certificates.filter(certificate => {
-    const matchesSearch = !query || [certificate.id, certificate.company, certificate.club, certificate.recipientEmail, certificate.orderId].join(' ').toLowerCase().includes(query);
-    return matchesSearch && (state.certificateFilter === 'all' || certificate.status === state.certificateFilter);
-  });
-  const body = document.getElementById('certificatesBody');
-  const empty = document.getElementById('certificatesEmpty');
-  body.innerHTML = rows.map(certificate => `<tr>
-    <td><span class="mono">${escapeHtml(certificate.id)}</span><span class="subtle">${escapeHtml(certificate.orderId ? `Order ${certificate.orderId}` : '')}</span></td>
-    <td>${escapeHtml(certificate.company || '—')}<span class="subtle">${escapeHtml(certificate.level || '')}</span></td><td>${escapeHtml(certificate.club || '—')}</td>
-    <td>${escapeHtml(certificate.recipientEmail || '—')}</td><td>${statusBadge(certificate.status)}${certificate.lastError ? `<span class="subtle">${escapeHtml(certificate.lastError)}</span>` : ''}</td>
-    <td>${formatDate(certificate.updatedAt || certificate.createdAt)}</td><td class="actions-col"><div class="row-actions">${certificateActions(certificate)}</div></td>
-  </tr>`).join('');
-  empty.hidden = rows.length > 0;
-  if (!rows.length) empty.innerHTML = state.data.certificates.length ? '<strong>Keine Treffer</strong>Filter oder Suche anpassen.' : '<strong>Noch keine Zertifikate</strong>Die Queue füllt sich, sobald der Checkout und die Zertifikat-Engine Zertifikate anlegen.';
-}
-
-function renderClubs() {
-  const rows = state.data.clubs;
-  document.getElementById('clubsBody').innerHTML = rows.map(club => `<tr><td>${escapeHtml(club.name || club.id)}</td><td>${escapeHtml(club.city || '—')}</td><td>${escapeHtml(club.season || '—')}</td><td>${statusBadge(club.status)}</td><td class="num">${integer.format(club.capacity)}</td><td class="num">${integer.format(club.sponsored)}</td><td class="num">${integer.format(club.remaining)}</td></tr>`).join('');
-  const empty = document.getElementById('clubsEmpty');
-  empty.hidden = rows.length > 0;
-  if (!rows.length) empty.innerHTML = '<strong>Noch keine aktiven Vereinsdatensätze</strong>Vereinsanfragen finden Sie unter „Anfragen“.';
-}
-
-function renderLeads() {
-  document.getElementById('sponsorLeadsBody').innerHTML = state.data.sponsorLeads.map(lead => `<tr><td>${escapeHtml(lead.name || '—')}<span class="subtle">${escapeHtml(lead.city || '')}</span></td><td>${escapeHtml(lead.contactName || '—')}<span class="subtle">${escapeHtml(lead.email || '')}</span></td><td>${escapeHtml(lead.club || '—')}</td><td>${escapeHtml(lead.level || '—')}<span class="subtle">${lead.amount ? euro.format(lead.amount) : ''}</span></td><td>${statusBadge(lead.status)}</td><td>${formatDate(lead.createdAt)}</td></tr>`).join('');
-  document.getElementById('clubLeadsBody').innerHTML = state.data.clubLeads.map(lead => `<tr><td>${escapeHtml(lead.name || '—')}</td><td>${escapeHtml(lead.contactName || '—')}<span class="subtle">${escapeHtml(lead.email || '')}</span></td><td>${escapeHtml(lead.city || '—')}</td><td class="num">${lead.plannedCapacity ? integer.format(lead.plannedCapacity) : '—'}</td><td>${statusBadge(lead.status)}</td><td>${formatDate(lead.createdAt)}</td></tr>`).join('');
-  const sponsorEmpty = document.getElementById('sponsorLeadsEmpty');
-  const clubEmpty = document.getElementById('clubLeadsEmpty');
-  sponsorEmpty.hidden = state.data.sponsorLeads.length > 0; clubEmpty.hidden = state.data.clubLeads.length > 0;
-  if (!state.data.sponsorLeads.length) sponsorEmpty.innerHTML = '<strong>Keine Sponsorenanfragen</strong>Noch keine Einträge.';
-  if (!state.data.clubLeads.length) clubEmpty.innerHTML = '<strong>Keine Vereinsanfragen</strong>Noch keine Einträge.';
-}
-
-function renderAll() { renderMetrics(); renderAttention(); renderRecentOrders(); renderOrders(); renderCertificates(); renderClubs(); renderLeads(); }
-
-async function loadData() {
-  const button = document.getElementById('refreshButton');
-  button.disabled = true; button.textContent = 'Lädt …';
-  try {
-    const response = await fetch('/api/admin/overview', { headers: { accept: 'application/json' } });
-    const body = await response.json().catch(() => ({}));
-    if (!response.ok || !body.ok) throw new Error(body.error || 'ADMIN_OVERVIEW_FAILED');
-    state.data = body;
-    document.getElementById('updatedAt').textContent = `Stand ${formatDate(body.generatedAt)}`;
-    renderAll();
-  } catch (error) {
-    showToast(`Admin-Daten konnten nicht geladen werden: ${error.message}`, true);
-  } finally {
-    button.disabled = false; button.textContent = 'Aktualisieren';
-  }
-}
-
-async function updateCertificate(id, status) {
-  let note = '';
-  if (status === 'failed') {
-    note = window.prompt('Kurzer Fehlerhinweis für den Audit-Trail:', '') || '';
-    if (!note.trim()) return;
-  }
-  const labels = { generated: 'als generated markieren', sent: 'als sent markieren', pending: 'erneut auf pending setzen', failed: 'als failed markieren' };
-  if (!window.confirm(`Zertifikat ${id} ${labels[status]}?`)) return;
-  try {
-    const response = await fetch('/api/admin/certificate-status', { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id, status, note }) });
-    const body = await response.json().catch(() => ({}));
-    if (!response.ok || !body.ok) throw new Error(body.error || 'CERTIFICATE_UPDATE_FAILED');
-    showToast(`Zertifikat ${id}: ${status}`);
-    await loadData();
-  } catch (error) { showToast(`Status konnte nicht aktualisiert werden: ${error.message}`, true); }
-}
-
-document.addEventListener('click', event => {
-  const nav = event.target.closest('[data-view]'); if (nav) setView(nav.dataset.view);
-  const go = event.target.closest('[data-go]'); if (go) setView(go.dataset.go);
-  const cert = event.target.closest('[data-cert-id]'); if (cert) updateCertificate(cert.dataset.certId, cert.dataset.certStatus);
-});
-
-document.getElementById('refreshButton').addEventListener('click', loadData);
-document.getElementById('orderSearch').addEventListener('input', event => { state.orderSearch = event.target.value; renderOrders(); });
-document.getElementById('orderFilter').addEventListener('change', event => { state.orderFilter = event.target.value; renderOrders(); });
-document.getElementById('certificateSearch').addEventListener('input', event => { state.certificateSearch = event.target.value; renderCertificates(); });
-document.getElementById('certificateFilter').addEventListener('change', event => { state.certificateFilter = event.target.value; renderCertificates(); });
-
-document.addEventListener('keydown', event => {
-  if (/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
-  const map = { '1': 'overview', '2': 'orders', '3': 'certificates', '4': 'clubs', '5': 'leads' };
-  if (map[event.key]) setView(map[event.key]);
-});
-
-loadData();
+function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[character]))}
+function formatDate(value){if(!value)return'—';const date=new Date(value);return Number.isNaN(date.getTime())?'—':dateTime.format(date)}
+function statusBadge(status){const safe=String(status||'unknown').toLowerCase();return `<span class="status status-${escapeHtml(safe)}">${escapeHtml(safe)}</span>`}
+function showToast(message,isError=false){const toast=document.getElementById('toast');toast.textContent=message;toast.className=`toast is-visible${isError?' is-error':''}`;clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>{toast.className='toast'},3200)}
+function setView(view){state.view=view;document.querySelectorAll('.nav-item').forEach(button=>button.classList.toggle('is-active',button.dataset.view===view));document.querySelectorAll('.view').forEach(panel=>panel.classList.toggle('is-active',panel.dataset.panel===view));const titles={overview:'Übersicht',orders:'Bestellungen',certificates:'Zertifikate',clubs:'Vereine',leads:'Anfragen'};document.getElementById('viewTitle').textContent=titles[view]||'Übersicht'}
+function renderMetrics(){const summary=state.data.summary;const refunds=summary.refundExceptions?.open||0;const metrics=[['Bezahlter Umsatz',euro.format(summary.paidRevenue),`${integer.format(summary.paidOrders)} bezahlte Bestellungen`,''],['Gesponserte Kinder',integer.format(summary.sponsoredChildren),'aus bezahlten Sponsorships',''],['Zertifikate offen',integer.format(summary.certificates.pending+summary.certificates.generated),`${integer.format(summary.certificates.sent)} gesendet`,''],['Benötigt Aufmerksamkeit',integer.format(summary.attention),`${integer.format(summary.certificates.failed)} Zertifikatfehler · ${integer.format(refunds)} Rückerstattungen`,'attention']];document.getElementById('metrics').innerHTML=metrics.map(([label,value,foot,className])=>`<article class="metric ${className}"><div class="metric-label">${label}</div><div class="metric-value">${value}</div><div class="metric-foot">${foot}</div></article>`).join('')}
+function renderAttention(){const items=[];(state.data.paymentExceptions||[]).filter(item=>item.refundStatus!=='succeeded').slice(0,4).forEach(item=>items.push({failed:['failed','canceled','request_failed'].includes(item.refundStatus),icon:'R',title:`Rückerstattung · ${item.company||item.id}`,meta:`${item.refundStatus} · ${item.reason||'Prüfung erforderlich'}`,view:'orders'}));state.data.certificates.filter(item=>item.status==='failed').slice(0,4).forEach(item=>items.push({failed:true,icon:'!',title:`${item.company||'Zertifikat'} fehlgeschlagen`,meta:item.lastError||'Prüfung erforderlich',view:'certificates'}));state.data.certificates.filter(item=>['pending','generated'].includes(item.status)).slice(0,4).forEach(item=>items.push({icon:'C',title:`${item.company||'Zertifikat'} · ${item.status}`,meta:item.club||item.recipientEmail||'Noch nicht abgeschlossen',view:'certificates'}));state.data.sponsorLeads.filter(item=>item.status==='new').slice(0,2).forEach(item=>items.push({icon:'S',title:`Neue Sponsorenanfrage · ${item.name}`,meta:item.club||item.city||item.email,view:'leads'}));state.data.clubLeads.filter(item=>item.status==='new').slice(0,2).forEach(item=>items.push({icon:'V',title:`Neue Vereinsanfrage · ${item.name}`,meta:item.city||item.email,view:'leads'}));document.getElementById('attentionCount').textContent=state.data.summary.attention;const container=document.getElementById('attentionList');if(!items.length){container.innerHTML='<div class="empty"><strong>Alles im grünen Bereich</strong>Keine offenen Zahlungs-, Zertifikat- oder Lead-Aufgaben.</div>';return}container.innerHTML=items.slice(0,8).map(item=>`<div class="attention-item ${item.failed?'is-failed':''}"><div class="attention-icon">${item.icon}</div><div><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.meta)}</span></div><button type="button" data-go="${item.view}">Öffnen</button></div>`).join('')}
+function renderRecentOrders(){const orders=state.data.orders.slice(0,5),container=document.getElementById('recentOrders');if(!orders.length){container.innerHTML='<div class="empty"><strong>Noch keine Bestellungen</strong>Bezahlte Sponsorships erscheinen nach Stripe-Fulfilment automatisch.</div>';return}container.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Bestellung</th><th>Sponsor</th><th class="num">Betrag</th><th>Zahlung</th></tr></thead><tbody>${orders.map(order=>`<tr><td class="mono">${escapeHtml(order.orderNumber)}</td><td>${escapeHtml(order.company||'—')}<span class="subtle">${escapeHtml(order.club||'')}</span></td><td class="num">${euro.format(order.amount)}</td><td>${statusBadge(order.paymentStatus)}</td></tr>`).join('')}</tbody></table></div>`}
+function renderOrders(){const query=state.orderSearch.trim().toLowerCase();const rows=state.data.orders.filter(order=>{const matchesSearch=!query||[order.orderNumber,order.company,order.club,order.email].join(' ').toLowerCase().includes(query);const matchesFilter=state.orderFilter==='all'||order.paymentStatus===state.orderFilter||(state.orderFilter==='paid'&&['paid','succeeded','complete','completed'].includes(order.paymentStatus));return matchesSearch&&matchesFilter});const body=document.getElementById('ordersBody'),empty=document.getElementById('ordersEmpty');body.innerHTML=rows.map(order=>`<tr><td><span class="mono">${escapeHtml(order.orderNumber)}</span><span class="subtle">${escapeHtml(order.id)}</span></td><td>${escapeHtml(order.company||'—')}<span class="subtle">${escapeHtml(order.email||'')}</span></td><td>${escapeHtml(order.club||'—')}</td><td>${escapeHtml(order.level||'—')}<span class="subtle">${integer.format(order.children)} Kinder</span></td><td class="num">${euro.format(order.amount)}</td><td>${statusBadge(order.paymentStatus)}</td><td>${statusBadge(order.certificateStatus||'unknown')}</td><td>${formatDate(order.createdAt)}</td></tr>`).join('');empty.hidden=rows.length>0;if(!rows.length)empty.innerHTML=state.data.orders.length?'<strong>Keine Treffer</strong>Filter oder Suche anpassen.':'<strong>Noch keine Bestellungen</strong>Bestellungen erscheinen hier automatisch nach erfolgreichem Fulfilment.'}
+function certificateActions(certificate){if(certificate.status==='pending')return `<button class="row-action" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="generated">Als generated</button><button class="row-action" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="failed">Fehler</button>`;if(certificate.status==='generated')return `<button class="row-action primary" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="sent">Als sent</button><button class="row-action" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="failed">Fehler</button>`;if(certificate.status==='failed')return `<button class="row-action primary" data-cert-id="${escapeHtml(certificate.id)}" data-cert-status="pending">Retry</button>`;return'<span class="subtle">Abgeschlossen</span>'}
+function renderCertificates(){const query=state.certificateSearch.trim().toLowerCase();const rows=state.data.certificates.filter(certificate=>{const matchesSearch=!query||[certificate.id,certificate.company,certificate.club,certificate.recipientEmail,certificate.orderId].join(' ').toLowerCase().includes(query);return matchesSearch&&(state.certificateFilter==='all'||certificate.status===state.certificateFilter)});const body=document.getElementById('certificatesBody'),empty=document.getElementById('certificatesEmpty');body.innerHTML=rows.map(certificate=>`<tr><td><span class="mono">${escapeHtml(certificate.id)}</span><span class="subtle">${escapeHtml(certificate.orderId?`Order ${certificate.orderId}`:'')}</span></td><td>${escapeHtml(certificate.company||'—')}<span class="subtle">${escapeHtml(certificate.level||'')}</span></td><td>${escapeHtml(certificate.club||'—')}</td><td>${escapeHtml(certificate.recipientEmail||'—')}</td><td>${statusBadge(certificate.status)}${certificate.lastError?`<span class="subtle">${escapeHtml(certificate.lastError)}</span>`:''}</td><td>${formatDate(certificate.updatedAt||certificate.createdAt)}</td><td class="actions-col"><div class="row-actions">${certificateActions(certificate)}</div></td></tr>`).join('');empty.hidden=rows.length>0;if(!rows.length)empty.innerHTML=state.data.certificates.length?'<strong>Keine Treffer</strong>Filter oder Suche anpassen.':'<strong>Noch keine Zertifikate</strong>Die Queue füllt sich nach erfolgreichem Sponsoring-Fulfilment.'}
+function renderClubs(){const rows=state.data.clubs;document.getElementById('clubsBody').innerHTML=rows.map(club=>`<tr><td>${escapeHtml(club.name||club.id)}</td><td>${escapeHtml(club.city||'—')}</td><td>${escapeHtml(club.season||'—')}</td><td>${statusBadge(club.status)}</td><td class="num">${integer.format(club.capacity)}</td><td class="num">${integer.format(club.sponsored)}</td><td class="num">${integer.format(club.remaining)}</td></tr>`).join('');const empty=document.getElementById('clubsEmpty');empty.hidden=rows.length>0;if(!rows.length)empty.innerHTML='<strong>Noch keine aktiven Vereinsdatensätze</strong>Vereinsanfragen finden Sie unter „Anfragen“.'}
+function renderLeads(){document.getElementById('sponsorLeadsBody').innerHTML=state.data.sponsorLeads.map(lead=>`<tr><td>${escapeHtml(lead.name||'—')}<span class="subtle">${escapeHtml(lead.city||'')}</span></td><td>${escapeHtml(lead.contactName||'—')}<span class="subtle">${escapeHtml(lead.email||'')}</span></td><td>${escapeHtml(lead.club||'—')}</td><td>${escapeHtml(lead.level||'—')}<span class="subtle">${lead.amount?euro.format(lead.amount):''}</span></td><td>${statusBadge(lead.status)}</td><td>${formatDate(lead.createdAt)}</td></tr>`).join('');document.getElementById('clubLeadsBody').innerHTML=state.data.clubLeads.map(lead=>`<tr><td>${escapeHtml(lead.name||'—')}</td><td>${escapeHtml(lead.contactName||'—')}<span class="subtle">${escapeHtml(lead.email||'')}</span></td><td>${escapeHtml(lead.city||'—')}</td><td class="num">${lead.plannedCapacity?integer.format(lead.plannedCapacity):'—'}</td><td>${statusBadge(lead.status)}</td><td>${formatDate(lead.createdAt)}</td></tr>`).join('');const sponsorEmpty=document.getElementById('sponsorLeadsEmpty'),clubEmpty=document.getElementById('clubLeadsEmpty');sponsorEmpty.hidden=state.data.sponsorLeads.length>0;clubEmpty.hidden=state.data.clubLeads.length>0;if(!state.data.sponsorLeads.length)sponsorEmpty.innerHTML='<strong>Keine Sponsorenanfragen</strong>Noch keine Einträge.';if(!state.data.clubLeads.length)clubEmpty.innerHTML='<strong>Keine Vereinsanfragen</strong>Noch keine Einträge.'}
+function renderAll(){renderMetrics();renderAttention();renderRecentOrders();renderOrders();renderCertificates();renderClubs();renderLeads()}
+function redirectToLogin(){location.replace('/admin/login?next='+encodeURIComponent(location.pathname+location.search))}
+async function loadData(){const button=document.getElementById('refreshButton');button.disabled=true;button.textContent='Lädt …';try{const response=await fetch('/api/admin/overview',{headers:{accept:'application/json'}});if(response.status===401)return redirectToLogin();const body=await response.json().catch(()=>({}));if(!response.ok||!body.ok)throw new Error(body.error||'ADMIN_OVERVIEW_FAILED');state.data=body;document.getElementById('updatedAt').textContent=`Stand ${formatDate(body.generatedAt)}`;renderAll()}catch(error){showToast(`Admin-Daten konnten nicht geladen werden: ${error.message}`,true)}finally{button.disabled=false;button.textContent='Aktualisieren'}}
+async function updateCertificate(id,status){let note='';if(status==='failed'){note=window.prompt('Kurzer Fehlerhinweis für den Audit-Trail:','')||'';if(!note.trim())return}const labels={generated:'als generated markieren',sent:'als sent markieren',pending:'erneut auf pending setzen',failed:'als failed markieren'};if(!window.confirm(`Zertifikat ${id} ${labels[status]}?`))return;try{const response=await fetch('/api/admin/certificate-status',{method:'PATCH',headers:{'content-type':'application/json'},body:JSON.stringify({id,status,note})});if(response.status===401)return redirectToLogin();const body=await response.json().catch(()=>({}));if(!response.ok||!body.ok)throw new Error(body.error||'CERTIFICATE_UPDATE_FAILED');showToast(`Zertifikat ${id}: ${status}`);await loadData()}catch(error){showToast(`Status konnte nicht aktualisiert werden: ${error.message}`,true)}}
+document.addEventListener('click',event=>{const nav=event.target.closest('[data-view]');if(nav)setView(nav.dataset.view);const go=event.target.closest('[data-go]');if(go)setView(go.dataset.go);const cert=event.target.closest('[data-cert-id]');if(cert)updateCertificate(cert.dataset.certId,cert.dataset.certStatus)});document.getElementById('refreshButton').addEventListener('click',loadData);document.getElementById('orderSearch').addEventListener('input',event=>{state.orderSearch=event.target.value;renderOrders()});document.getElementById('orderFilter').addEventListener('change',event=>{state.orderFilter=event.target.value;renderOrders()});document.getElementById('certificateSearch').addEventListener('input',event=>{state.certificateSearch=event.target.value;renderCertificates()});document.getElementById('certificateFilter').addEventListener('change',event=>{state.certificateFilter=event.target.value;renderCertificates()});document.addEventListener('keydown',event=>{if(/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName))return;const map={'1':'overview','2':'orders','3':'certificates','4':'clubs','5':'leads'};if(map[event.key])setView(map[event.key])});loadData();
