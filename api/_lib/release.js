@@ -19,7 +19,8 @@ function releaseState() {
   const productionOperationsEnabled = flag('PRODUCTION_OPERATIONS_ENABLED');
   const analyticsReleaseApproved = flag('ANALYTICS_RELEASE_APPROVED');
   const analyticsConsentReady = flag('ANALYTICS_CONSENT_READY');
-  const publicBase = production && publicReleaseEnabled && legalReleaseApproved;
+  const distributedAbuseControlsReady = flag('DISTRIBUTED_ABUSE_CONTROLS_READY');
+  const publicBase = production && publicReleaseEnabled && legalReleaseApproved && distributedAbuseControlsReady;
   return {
     environment,
     preview,
@@ -32,11 +33,12 @@ function releaseState() {
     productionOperationsEnabled,
     analyticsReleaseApproved,
     analyticsConsentReady,
+    distributedAbuseControlsReady,
     productionPublicWrites: publicBase,
     productionPaymentWrites: publicBase && paymentsReleaseApproved,
     productionMinorWrites: publicBase && minorDataReleaseApproved,
     productionMinorPaymentWrites: publicBase && minorDataReleaseApproved && paymentsReleaseApproved,
-    productionAdminWrites: production && productionOperationsEnabled,
+    productionAdminWrites: production && productionOperationsEnabled && distributedAbuseControlsReady,
   };
 }
 
