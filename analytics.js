@@ -1,23 +1,29 @@
 (function(){
-  const dataLayer = window.dataLayer = window.dataLayer || [];
+  const config=window.F200AnalyticsConfig||{};
+  const networkEnabled=config.networkEnabled===true&&/^GTM-[A-Z0-9]+$/i.test(String(config.gtmId||''));
+  const gtmId=String(config.gtmId||'').trim();
+  const CONSENT_KEY='f200_analytics_consent_v1';
+  const buffer=[];
+  let memoryConsent='';
+  let networkLoaded=false;
+
   function clean(value,max=180){return String(value||'').replace(/\s+/g,' ').trim().slice(0,max)}
-  function emit(event,detail={}){
-    const payload={event:clean(event,80),f200_path:location.pathname,...detail};
-    dataLayer.push(payload);
-    try{window.dispatchEvent(new CustomEvent('football200:analytics',{detail:payload}))}catch{}
-  }
-  window.F200Analytics={emit};
+  function consentValue(){try{const value=localStorage.getItem(CONSENT_KEY)||'';return value==='granted'||value==='denied'?value:memoryConsent}catch{return memoryConsent}}
+  function storeConsent(value){memoryConsent=value;try{localStorage.setItem(CONSENT_KEY,value)}catch{}}
+  function forward(payload){if(!networkEnabled||consentValue()!=='granted')return;window.dataLayer=window.dataLayer||[];window.dataLayer.push(payload)}
+  function emit(event,detail={}){const payload={event:clean(event,80),f200_path:location.pathname,...detail};buffer.push(payload);forward(payload);try{window.dispatchEvent(new CustomEvent('football200:analytics',{detail:payload}))}catch{}return payload}
+  function clearAnalyticsCookies(){try{for(const chunk of String(document.cookie||'').split(';')){const name=chunk.split('=')[0].trim();if(!/^(_ga|_gid|_gat)/.test(name))continue;document.cookie=`${name}=; Max-Age=0; Path=/; SameSite=Lax`}}catch{}}
+  function loadNetworkAnalytics(){if(!networkEnabled||networkLoaded||consentValue()!=='granted')return false;networkLoaded=true;window.dataLayer=window.dataLayer||[];window.dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});const script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtm.js?id='+encodeURIComponent(gtmId);script.dataset.f200Gtm='consented';(document.head||document.documentElement).appendChild(script);return true}
+  function ensureStyles(){if(document.getElementById('f200-consent-style'))return;const style=document.createElement('style');style.id='f200-consent-style';style.textContent='#f200-consent{position:fixed;left:20px;right:20px;bottom:20px;z-index:10000;max-width:760px;margin:auto;background:#111a24;color:#fff;border-radius:18px;padding:20px;box-shadow:0 18px 54px rgba(0,0,0,.28);font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}#f200-consent strong{display:block;font-size:16px;margin-bottom:6px}#f200-consent p{margin:0;color:#e5e7eb}#f200-consent a{color:#fff;text-decoration:underline}#f200-consent-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}#f200-consent button,#f200-privacy-settings{border:0;border-radius:999px;padding:10px 15px;font:700 13px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}#f200-consent-accept{background:#a4cc45;color:#17220b}#f200-consent-essential{background:#fff;color:#111a24}#f200-privacy-settings{position:fixed;left:16px;bottom:16px;z-index:9998;background:#fff;color:#111a24;border:1px solid #dfe3df;box-shadow:0 8px 28px rgba(17,26,36,.12)}@media(max-width:600px){#f200-consent{left:10px;right:10px;bottom:10px;padding:17px}#f200-consent-actions button{flex:1 1 180px}}';(document.head||document.documentElement).appendChild(style)}
+  function settingsButton(){if(!networkEnabled||document.getElementById('f200-privacy-settings'))return;const button=document.createElement('button');button.id='f200-privacy-settings';button.type='button';button.textContent='Datenschutz-Einstellungen';button.addEventListener('click',()=>showPreferences(true));document.body.appendChild(button)}
+  function hideBanner(){document.getElementById('f200-consent')?.remove()}
+  function showPreferences(force=false){if(!networkEnabled||!document.body)return;if(!force&&consentValue())return;hideBanner();ensureStyles();const box=document.createElement('section');box.id='f200-consent';box.setAttribute('role','dialog');box.setAttribute('aria-labelledby','f200-consent-title');box.innerHTML='<strong id="f200-consent-title">Optionale Statistik</strong><p>Wir nutzen optionale Statistik-Tools nur mit Ihrer Einwilligung. Ohne Zustimmung bleibt die Website nutzbar. Details finden Sie im <a href="/datenschutz.html">Datenschutz</a>.</p><div id="f200-consent-actions"><button id="f200-consent-essential" type="button">Nur erforderlich</button><button id="f200-consent-accept" type="button">Statistik zulassen</button></div>';document.body.appendChild(box);document.getElementById('f200-consent-essential').addEventListener('click',()=>setConsent('denied'));document.getElementById('f200-consent-accept').addEventListener('click',()=>setConsent('granted'))}
+  function setConsent(value){if(value!=='granted'&&value!=='denied')return;const previous=consentValue();storeConsent(value);hideBanner();settingsButton();if(value==='granted'){loadNetworkAnalytics();emit('f200_consent_granted');emit('f200_page_view',{f200_title:clean(document.title,160),f200_consent_transition:true})}else{clearAnalyticsCookies();emit('f200_consent_denied');if(previous==='granted'&&networkLoaded&&location&&typeof location.reload==='function')setTimeout(()=>location.reload(),0)}}
+
+  window.F200Analytics={emit,getConsent:consentValue,setAnalyticsConsent:setConsent,showPrivacySettings:()=>showPreferences(true),bufferedEventCount:()=>buffer.length};
+  if(networkEnabled&&consentValue()==='granted')loadNetworkAnalytics();
   emit('f200_page_view',{f200_title:clean(document.title,160)});
-  document.addEventListener('click',event=>{
-    const el=event.target.closest('a,button');if(!el)return;
-    const href=el.getAttribute('href')||'';let name='f200_cta_click';
-    if(/sponsor\/checkout|unternehmen\.html#levels/.test(href))name='f200_sponsor_cta';
-    else if(/verein\.html#form/.test(href))name='f200_club_cta';
-    else if(/family-plus/.test(href))name='f200_family_plus_cta';
-    emit(name,{f200_label:clean(el.textContent,100),f200_target:clean(href,180)});
-  });
-  document.addEventListener('submit',event=>{
-    const form=event.target;if(!(form instanceof HTMLFormElement))return;
-    emit('f200_form_submit',{f200_form:clean(form.id||form.getAttribute('name')||location.pathname,100)});
-  });
+  document.addEventListener('click',event=>{const el=event.target.closest('a,button');if(!el)return;const href=el.getAttribute('href')||'';let name='f200_cta_click';if(/sponsor\/checkout|unternehmen\.html#levels/.test(href))name='f200_sponsor_cta';else if(/verein\.html#form/.test(href))name='f200_club_cta';else if(/family-plus/.test(href))name='f200_family_plus_cta';emit(name,{f200_label:clean(el.textContent,100),f200_target:clean(href,180)})});
+  document.addEventListener('submit',event=>{const form=event.target;if(!(form instanceof HTMLFormElement))return;emit('f200_form_submit',{f200_form:clean(form.id||form.getAttribute('name')||location.pathname,100)})});
+  if(networkEnabled){const init=()=>{ensureStyles();settingsButton();showPreferences(false)};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()}
 })();
