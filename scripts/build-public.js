@@ -19,6 +19,21 @@ const analyticsNetworkEnabled = canIndex && analyticsApproved && analyticsConsen
 const host = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'football200.vercel.app';
 const base = /^https?:\/\//.test(host) ? host.replace(/\/$/, '') : `https://${host}`;
 
+const requiredLegalFiles = ['impressum.html', 'datenschutz.html'];
+const legalPlaceholderPatterns = [/REQUIRES QUALIFIED LEGAL REVIEW/i, /NICHT PRODUKTIONSFREIGEGEBEN/i, /Release Gate/i];
+function assertLegalReleaseSurfaces() {
+  if (!productionRuntime) return;
+  for (const relative of requiredLegalFiles) {
+    const file = path.join(root, relative);
+    if (!fs.existsSync(file)) throw new Error(`LEGAL_RELEASE_SURFACE_MISSING:${relative}`);
+    const html = fs.readFileSync(file, 'utf8');
+    if (!/<h1\b[^>]*>[^<]+<\/h1>/i.test(html) || legalPlaceholderPatterns.some(pattern => pattern.test(html))) {
+      throw new Error(`LEGAL_RELEASE_SURFACE_NOT_READY:${relative}`);
+    }
+  }
+}
+assertLegalReleaseSurfaces();
+
 const publicRoutes = [
   ['index.html', '/'],['verein.html', '/verein'],['unternehmen.html', '/unternehmen'],['sponsoren.html', '/sponsoren'],['club-sponsors.html', '/club-sponsors'],['kinder-familien.html', '/kinder-familien'],['stadion.html', '/stadion'],['sponsoren-finden-verein.html', '/sponsoren-finden-verein'],['sponsoring-sportverein.html', '/sponsoring-sportverein'],['sponsoring-fussballverein.html', '/sponsoring-fussballverein'],['sportsponsoring-lokale-unternehmen.html', '/sportsponsoring-lokale-unternehmen'],['ehrenamt-sportverein.html', '/ehrenamt-sportverein'],['sponsoring-kleine-vereine.html', '/sponsoring-kleine-vereine'],['sponsoring-ideen-verein.html', '/sponsoring-ideen-verein'],['sponsoring-verein-kosten.html', '/sponsoring-verein-kosten'],
 ].filter(([file]) => fs.existsSync(path.join(root, file)));
@@ -36,4 +51,4 @@ for(const file of walk(root).filter(file=>file.endsWith('.html'))){const relativ
 const robots=canIndex?`User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\nDisallow: /programme-test/\nDisallow: /guardian/\nDisallow: /sponsor/\nDisallow: /family-plus/\nSitemap: ${base}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n';fs.writeFileSync(path.join(root,'robots.txt'),robots);
 const sitemap=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${publicRoutes.map(([,route])=>`  <url><loc>${base}${route}</loc></url>`).join('\n')}\n</urlset>\n`;fs.writeFileSync(path.join(root,'sitemap.xml'),sitemap);
 const llms=`# Sponsor a Young Fan / Football200\n\nStatus: ${canIndex?'public production release':'non-indexed staging/release gate'}\nMarket: Germany\nCategory: community and lower-league football\nPrimary audience: football clubs\n\n## Product\nSponsor a Young Fan helps clubs gain local sponsors and young fans with low administrative burden. Local companies sponsor programme places at a fixed EUR 99 per child per season. Sponsorship levels are 1, 3, 5 or 10 children. A club can release at most 200 sponsored places per season.\n\nChildren apply online or through participating schools. The child is the central participant. Parent or guardian confirmation follows selection. Real minor-data flows remain subject to the production legal and safeguarding gate.\n\n## Main public routes\n${publicRoutes.map(([,route])=>`- ${base}${route}`).join('\n')}\n\n## Product separation\nRunYourEvent is a separate optional service for volunteer and matchday support. It is not Football200/Sponsor a Young Fan.\n`;fs.writeFileSync(path.join(root,'llms.txt'),llms);
-console.log(JSON.stringify({env,releaseEnabled,indexingEnabled,legalApproved,paymentsApproved,minorDataApproved,operationsApproved,canIndex,analyticsApproved,analyticsConsentReady,analyticsNetworkEnabled,publicPages:publicRoutes.length}));
+console.log(JSON.stringify({env,releaseEnabled,indexingEnabled,legalApproved,paymentsApproved,minorDataApproved,operationsApproved,canIndex,analyticsApproved,analyticsConsentReady,analyticsNetworkEnabled,legalSurfacesValidated:productionRuntime,publicPages:publicRoutes.length}));
