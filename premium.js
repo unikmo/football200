@@ -3,6 +3,18 @@ document.querySelectorAll('[data-menu]').forEach(btn=>btn.addEventListener('clic
 (function(){
   const page=(location.pathname.split('/').pop()||'index.html').toLowerCase();
 
+  // Keep the approved Sponsor page discoverable across the existing demo navigation
+  // without rewriting each static page during the current staging iteration.
+  document.querySelectorAll('.nav-links').forEach(nav=>{
+    const hasSponsors=nav.querySelector('a[href="sponsoren.html"],a[href="/sponsoren.html"]');
+    if(hasSponsors) return;
+    const link=document.createElement('a');
+    link.href='sponsoren.html';
+    link.textContent='Sponsoren';
+    const before=Array.from(nav.querySelectorAll('a')).find(a=>/kinder/i.test(a.textContent));
+    nav.insertBefore(link,before||null);
+  });
+
   if(page==='unternehmen.html'){
     document.querySelectorAll('a[href="#form"]').forEach(link=>{
       link.href='/sponsor/checkout.html';
