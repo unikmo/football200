@@ -1,10 +1,12 @@
 const crypto = require('crypto');
 const { listAllDocuments, getDocument, createDocument } = require('../_lib/firebase');
 const { sendJson, readJsonBody, previewWritesAllowed, text } = require('../_lib/http');
+const { requireAdmin } = require('../_lib/admin-auth');
 
 function validDate(value) { const d = new Date(value); return Number.isFinite(d.getTime()) ? d : null; }
 
 module.exports = async function handler(req, res) {
+  if (!requireAdmin(req, res).ok) return;
   if (req.method === 'GET') {
     try { return sendJson(res, 200, { ok: true, items: await listAllDocuments('sponsor_spotlights') }); }
     catch (error) { return sendJson(res, 500, { ok: false, error: error.code || 'SPOTLIGHT_LIST_FAILED' }); }
