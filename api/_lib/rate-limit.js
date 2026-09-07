@@ -1,0 +1,5 @@
+const crypto = require('crypto');
+const store = globalThis.__f200RateLimitStore || (globalThis.__f200RateLimitStore = new Map());
+function clientKey(req,bucket){const raw=String(req.headers['x-forwarded-for']||req.headers['x-real-ip']||req.socket?.remoteAddress||'unknown').split(',')[0].trim();return crypto.createHash('sha256').update(`${bucket}:${raw}`).digest('hex')}
+function enforceRateLimit(req,res,{bucket='default',limit=20,windowMs=60000}={}){const now=Date.now(),key=clientKey(req,bucket),current=store.get(key);let entry=current;if(!entry||entry.resetAt<=now)entry={count:0,resetAt:now+windowMs};entry.count+=1;store.set(key,entry);res.setHeader('x-ratelimit-limit',String(limit));res.setHeader('x-ratelimit-remaining',String(Math.max(0,limit-entry.count)));res.setHeader('x-ratelimit-reset',String(Math.ceil(entry.resetAt/1000)));if(entry.count<=limit)return true;res.statusCode=429;res.setHeader('retry-after',String(Math.max(1,Math.ceil((entry.resetAt-now)/1000))));res.setHeader('content-type','application/json; charset=utf-8');res.end(JSON.stringify({ok:false,error:'RATE_LIMITED'}));return false}
+module.exports={enforceRateLimit};
