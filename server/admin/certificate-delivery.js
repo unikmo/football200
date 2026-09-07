@@ -1,13 +1,14 @@
 const { getDocument, updateDocument, createDocument } = require('../_lib/firebase');
-const { sendJson, readJsonBody, previewWritesAllowed, text } = require('../_lib/http');
+const { sendJson, readJsonBody, text } = require('../_lib/http');
 const { sendCertificateEmail } = require('../_lib/email');
 const { requireAdmin } = require('../_lib/admin-auth');
 const { deploymentOrigin } = require('../_lib/origin');
+const { writeAllowed, sourceTag } = require('../_lib/release');
 
 module.exports=async function handler(req,res){
   if(!requireAdmin(req,res).ok)return;
   if(req.method!=='POST') return sendJson(res,405,{ok:false,error:'METHOD_NOT_ALLOWED'});
-  if(!previewWritesAllowed()) return sendJson(res,403,{ok:false,error:'PREVIEW_ONLY'});
+  if(!writeAllowed('admin')) return sendJson(res,403,{ok:false,error:'RELEASE_GATE_BLOCKED'});
   try{
     const body=await readJsonBody(req), id=text(body.certificateId,120);
     if(!id) return sendJson(res,400,{ok:false,error:'CERTIFICATE_REQUIRED'});
@@ -18,8 +19,8 @@ module.exports=async function handler(req,res){
     if(!delivery.ok) return sendJson(res,409,{ok:false,error:'EMAIL_NOT_CONFIGURED'});
     const now=new Date().toISOString();
     await updateDocument('certificates',id,{status:'sent',deliveryStatus:'sent',sentAt:now,updatedAt:now,emailProviderId:delivery.id});
-    if(cert.sponsorshipId) await updateDocument('sponsorships',cert.sponsorshipId,{certificateStatus:'sent'});
-    await createDocument('operations_events',{type:'certificate.sent_manual',certificateId:id,sponsorshipId:cert.sponsorshipId||'',createdAt:now});
+    if(cert.sponsorshipId) await updateDocument('sponsorships',cert.sponsorshipId,{certificateStatus:'sent',updatedAt:now});
+    await createDocument('operations_events',{type:'certificate.sent_manual',certificateId:id,sponsorshipId:cert.sponsorshipId||'',source:sourceTag('football200-admin'),createdAt:now});
     return sendJson(res,200,{ok:true,id,deliveryId:delivery.id});
   }catch(error){return sendJson(res,500,{ok:false,error:error.code||'CERTIFICATE_DELIVERY_FAILED'})}
 };

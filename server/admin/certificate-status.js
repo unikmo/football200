@@ -1,7 +1,8 @@
 const { getDocument, updateDocument, createDocument } = require('../_lib/firebase');
-const { sendJson, readJsonBody, text, previewWritesAllowed } = require('../_lib/http');
+const { sendJson, readJsonBody, text } = require('../_lib/http');
 const { normalizeCertificate, normalizeCertificateStatus, canTransitionCertificate } = require('../_lib/admin');
 const { requireAdmin } = require('../_lib/admin-auth');
+const { writeAllowed, sourceTag } = require('../_lib/release');
 
 function safeDocumentId(value) {
   const id = text(value, 200);
@@ -11,7 +12,7 @@ function safeDocumentId(value) {
 module.exports = async function handler(req, res) {
   if (!requireAdmin(req, res).ok) return;
   if (req.method !== 'PATCH') return sendJson(res, 405, { ok: false, error: 'METHOD_NOT_ALLOWED' });
-  if (!previewWritesAllowed()) return sendJson(res, 403, { ok: false, error: 'PREVIEW_ADMIN_ONLY' });
+  if (!writeAllowed('admin')) return sendJson(res, 403, { ok: false, error: 'RELEASE_GATE_BLOCKED' });
 
   try {
     const body = await readJsonBody(req);
@@ -32,13 +33,13 @@ module.exports = async function handler(req, res) {
     const update = { status: nextStatus, updatedAt: now };
     if (nextStatus === 'generated' && !current.generatedAt) update.generatedAt = now;
     if (nextStatus === 'sent' && !current.sentAt) update.sentAt = now;
-    if (nextStatus === 'failed') { update.failedAt = now; update.lastError = note || 'Manual failure status set from admin preview'; }
+    if (nextStatus === 'failed') { update.failedAt = now; update.lastError = note || 'Manual failure status set from admin'; }
     if (nextStatus === 'pending' && currentStatus === 'failed') { update.retryRequestedAt = now; update.lastError = null; }
 
     const updated = await updateDocument('certificates', id, update);
     const orderId = safeDocumentId(current.orderId || current.sponsorshipId);
     if (orderId) { const order = await getDocument('sponsorships', orderId); if (order) await updateDocument('sponsorships', orderId, { certificateStatus: nextStatus, updatedAt: now }); }
-    await createDocument('operations_events', { type: 'certificate_status_changed', entityType: 'certificate', entityId: id, orderId: orderId || '', fromStatus: currentStatus, toStatus: nextStatus, note, source: 'football200-admin-preview', createdAt: now });
+    await createDocument('operations_events', { type: 'certificate_status_changed', entityType: 'certificate', entityId: id, orderId: orderId || '', fromStatus: currentStatus, toStatus: nextStatus, note, source: sourceTag('football200-admin'), createdAt: now });
     return sendJson(res, 200, { ok: true, certificate: normalizeCertificate(updated) });
   } catch (error) {
     return sendJson(res, 500, { ok: false, error: error.code || 'CERTIFICATE_STATUS_UPDATE_FAILED', upstreamStatus: Number.isInteger(error.status) ? error.status : null });
