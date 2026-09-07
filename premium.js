@@ -3,8 +3,6 @@ document.querySelectorAll('[data-menu]').forEach(btn=>btn.addEventListener('clic
 (function(){
   const page=(location.pathname.split('/').pop()||'index.html').toLowerCase();
 
-  // Keep the approved Sponsor page discoverable across the existing demo navigation
-  // without rewriting each static page during the current staging iteration.
   document.querySelectorAll('.nav-links').forEach(nav=>{
     const hasSponsors=nav.querySelector('a[href="sponsoren.html"],a[href="/sponsoren.html"]');
     if(hasSponsors) return;
@@ -21,6 +19,51 @@ document.querySelectorAll('[data-menu]').forEach(btn=>btn.addEventListener('clic
       if(link.textContent.includes('Sponsor werden')) link.setAttribute('aria-label','Sponsor werden und Stripe Test-Checkout öffnen');
     });
   }
+
+  async function loadSponsorSpotlight(){
+    if(page!=='index.html'&&page!=='sponsoren.html') return;
+    try{
+      const response=await fetch('/api/public/spotlight',{headers:{accept:'application/json'}});
+      const body=await response.json();
+      const spotlight=response.ok?body.spotlight:null;
+      if(!spotlight||!spotlight.company) return;
+
+      if(page==='sponsoren.html'){
+        const card=document.querySelector('.spotlight-card');
+        if(card){
+          const badge=card.querySelector('.spotlight-badge');
+          const logo=card.querySelector('.spotlight-logo');
+          const kicker=card.querySelector('.kicker');
+          const title=card.querySelector('.section-title');
+          const copy=card.querySelector('.section-copy');
+          const note=card.querySelector('.spotlight-note');
+          if(badge) badge.textContent='Sponsor der Woche';
+          if(logo){logo.textContent='';const name=document.createElement('strong');name.textContent=spotlight.company;name.style.fontSize='clamp(24px,4vw,42px)';name.style.textAlign='center';logo.append(name)}
+          if(kicker) kicker.textContent='Aktueller Sponsor';
+          if(title) title.textContent=spotlight.company;
+          if(copy) copy.textContent=spotlight.story||`${spotlight.company} unterstützt junge Fans im Football200-Programm.`;
+          if(note) note.textContent=[spotlight.city,spotlight.clubName].filter(Boolean).join(' · ');
+        }
+      }
+
+      if(page==='index.html'){
+        const hero=document.querySelector('.hero');
+        if(hero&&!document.querySelector('[data-active-spotlight]')){
+          const band=document.createElement('a');
+          band.href='sponsoren.html#woche';
+          band.setAttribute('data-active-spotlight','');
+          band.style.cssText='display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 20px;background:#f7f9f1;border-bottom:1px solid #e3e8dd;color:#111a24;text-decoration:none;font-size:13px;font-weight:700;text-align:center';
+          const label=document.createElement('span');label.textContent='Sponsor der Woche';label.style.color='#557615';
+          const name=document.createElement('strong');name.textContent=spotlight.company;
+          const arrow=document.createElement('span');arrow.textContent='→';
+          band.append(label,name,arrow);
+          hero.insertAdjacentElement('afterend',band);
+        }
+      }
+    }catch{}
+  }
+
+  loadSponsorSpotlight();
 
   const configs={
     'verein.html':{
@@ -42,7 +85,6 @@ document.querySelectorAll('[data-menu]').forEach(btn=>btn.addEventListener('clic
       const note=form.querySelector('.form-note');
       const config=configs[page];
 
-      // Child/family applications remain intentionally non-persistent in this demo.
       if(!config){
         if(success) success.style.display='block';
         return;
