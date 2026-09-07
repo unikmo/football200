@@ -11,11 +11,6 @@ function getStripeSecret() {
     error.code = 'STRIPE_NOT_CONFIGURED';
     throw error;
   }
-  if (process.env.VERCEL_ENV === 'preview' && !key.startsWith('sk_test_')) {
-    const error = new Error('Preview requires a Stripe test-mode secret key');
-    error.code = 'STRIPE_LIVE_KEY_BLOCKED';
-    throw error;
-  }
   return key;
 }
 
@@ -67,6 +62,15 @@ async function stripePost(path, params, idempotencyKey = '') {
   });
 }
 
+async function ensurePreviewSessionIsSandbox(session) {
+  if (process.env.VERCEL_ENV !== 'preview' && process.env.NODE_ENV !== 'test') return session;
+  if (session?.livemode !== true) return session;
+  try { await stripePost(`/checkout/sessions/${encodeURIComponent(session.id)}/expire`, {}); } catch {}
+  const error = new Error('Live-mode Stripe session blocked in Preview');
+  error.code = 'STRIPE_LIVE_SESSION_BLOCKED';
+  throw error;
+}
+
 function verifyWebhookSignature(rawBody, signatureHeader, secret, toleranceSeconds = 300) {
   const pieces = String(signatureHeader || '').split(',').map(v => v.trim());
   const timestamp = pieces.find(v => v.startsWith('t='))?.slice(2);
@@ -103,6 +107,7 @@ module.exports = {
   verifyStripeAccount,
   stripeGet,
   stripePost,
+  ensurePreviewSessionIsSandbox,
   verifyWebhookSignature,
   readRawBody,
 };
