@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'api/**'
+      - 'server/**'
       - 'tests/**'
       - 'scripts/**'
       - 'package.json'
