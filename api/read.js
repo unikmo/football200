@@ -5,6 +5,7 @@ const handlers = Object.freeze({
   'programme': () => require('../server/programme'),
   'schools': () => require('../server/schools'),
   'health/firebase': () => require('../server/health/firebase'),
+  'health/readiness': () => require('../server/health/readiness'),
   'certificates/public': () => require('../server/certificates/public'),
   'public/club-sponsors': () => require('../server/public/club-sponsors'),
   'public/spotlight': () => require('../server/public/spotlight'),

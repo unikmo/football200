@@ -1,7 +1,8 @@
 const crypto = require('crypto');
+const { expectedStripeLivemode } = require('./release');
 
 const STRIPE_API = 'https://api.stripe.com/v1';
-const STRIPE_EXPECTED_ACCOUNT_ID = 'acct_1UCe5VGqzoOGCYe0';
+const DEFAULT_PREVIEW_ACCOUNT_ID = 'acct_1UCe5VGqzoOGCYe0';
 let verifiedAccount = null;
 
 function getStripeSecret() {
@@ -12,6 +13,15 @@ function getStripeSecret() {
     throw error;
   }
   return key;
+}
+
+function expectedStripeAccountId() {
+  const configured = String(process.env.STRIPE_EXPECTED_ACCOUNT_ID || '').trim();
+  if (configured) return configured;
+  if (expectedStripeLivemode() === false) return DEFAULT_PREVIEW_ACCOUNT_ID;
+  const error = new Error('Production Stripe account identity is not configured');
+  error.code = 'STRIPE_EXPECTED_ACCOUNT_NOT_CONFIGURED';
+  throw error;
 }
 
 async function stripeFetch(path, options = {}) {
@@ -33,15 +43,17 @@ async function stripeFetch(path, options = {}) {
 }
 
 async function verifyStripeAccount() {
-  if (verifiedAccount?.id === STRIPE_EXPECTED_ACCOUNT_ID) return verifiedAccount;
+  const expected = expectedStripeAccountId();
+  if (verifiedAccount?.id === expected && verifiedAccount?.expected === expected) return verifiedAccount;
   const account = await stripeFetch('/account', { method: 'GET' });
-  if (account.id !== STRIPE_EXPECTED_ACCOUNT_ID) {
+  if (account.id !== expected) {
     const error = new Error('Stripe key belongs to a different account');
     error.code = 'STRIPE_ACCOUNT_MISMATCH';
     error.actualAccountId = account.id || '';
+    error.expectedAccountId = expected;
     throw error;
   }
-  verifiedAccount = { id: account.id, country: account.country || '', defaultCurrency: account.default_currency || '' };
+  verifiedAccount = { id: account.id, expected, country: account.country || '', defaultCurrency: account.default_currency || '' };
   return verifiedAccount;
 }
 
@@ -62,12 +74,20 @@ async function stripePost(path, params, idempotencyKey = '') {
   });
 }
 
-async function ensurePreviewSessionIsSandbox(session) {
-  if (process.env.VERCEL_ENV !== 'preview' && process.env.NODE_ENV !== 'test') return session;
-  if (session?.livemode !== true) return session;
-  try { await stripePost(`/checkout/sessions/${encodeURIComponent(session.id)}/expire`, {}); } catch {}
-  const error = new Error('Live-mode Stripe session blocked in Preview');
-  error.code = 'STRIPE_LIVE_SESSION_BLOCKED';
+async function ensureStripeSessionMode(session) {
+  const expected = expectedStripeLivemode();
+  if (expected === null || Boolean(session?.livemode) === expected) return session;
+  try { if (session?.id) await stripePost(`/checkout/sessions/${encodeURIComponent(session.id)}/expire`, {}); } catch {}
+  const error = new Error(expected ? 'Test-mode Stripe session blocked in Production' : 'Live-mode Stripe session blocked outside Production');
+  error.code = expected ? 'STRIPE_TEST_SESSION_BLOCKED_IN_PRODUCTION' : 'STRIPE_LIVE_SESSION_BLOCKED';
+  throw error;
+}
+
+function assertStripeEventMode(event) {
+  const expected = expectedStripeLivemode();
+  if (expected === null || Boolean(event?.livemode) === expected) return true;
+  const error = new Error(expected ? 'Test-mode Stripe event blocked in Production' : 'Live-mode Stripe event blocked outside Production');
+  error.code = expected ? 'STRIPE_TEST_EVENT_BLOCKED_IN_PRODUCTION' : 'LIVE_STRIPE_EVENT_BLOCKED';
   throw error;
 }
 
@@ -102,12 +122,14 @@ function readRawBody(req, maxBytes = 1024 * 1024) {
 }
 
 module.exports = {
-  STRIPE_EXPECTED_ACCOUNT_ID,
+  DEFAULT_PREVIEW_ACCOUNT_ID,
   getStripeSecret,
+  expectedStripeAccountId,
   verifyStripeAccount,
   stripeGet,
   stripePost,
-  ensurePreviewSessionIsSandbox,
+  ensureStripeSessionMode,
+  assertStripeEventMode,
   verifyWebhookSignature,
   readRawBody,
 };

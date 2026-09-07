@@ -6,7 +6,12 @@ const env = process.env.VERCEL_ENV || 'development';
 const releaseEnabled = process.env.PUBLIC_RELEASE_ENABLED === 'true';
 const indexingEnabled = process.env.PUBLIC_INDEXING_ENABLED === 'true';
 const legalApproved = process.env.LEGAL_RELEASE_APPROVED === 'true';
+const analyticsApproved = process.env.ANALYTICS_RELEASE_APPROVED === 'true';
+const analyticsConsentReady = process.env.ANALYTICS_CONSENT_READY === 'true';
+const gtmId = String(process.env.PUBLIC_GTM_ID || '').trim();
+const validGtmId = /^GTM-[A-Z0-9]+$/i.test(gtmId);
 const canIndex = env === 'production' && releaseEnabled && indexingEnabled && legalApproved;
+const analyticsNetworkEnabled = canIndex && analyticsApproved && analyticsConsentReady && validGtmId;
 const host = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'football200.vercel.app';
 const base = /^https?:\/\//.test(host) ? host.replace(/\/$/, '') : `https://${host}`;
 
@@ -65,6 +70,15 @@ function addStructuredData(html, route) {
   const clean = JSON.parse(JSON.stringify(payload));
   return html.replace(/<\/head>/i, `<script type="application/ld+json" data-f200-schema>${JSON.stringify(clean)}</script></head>`);
 }
+function addLocalAnalytics(html) {
+  if (html.includes('data-f200-analytics')) return html;
+  return html.replace(/<\/body>/i, '<script src="/analytics.js" defer data-f200-analytics></script></body>');
+}
+function addNetworkAnalytics(html) {
+  if (!analyticsNetworkEnabled || html.includes('data-f200-gtm')) return html;
+  const tag = `<script data-f200-gtm>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+encodeURIComponent(i);f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','${gtmId}');</script>`;
+  return html.replace(/<\/head>/i, `${tag}</head>`);
+}
 
 for (const file of walk(root).filter(file => file.endsWith('.html'))) {
   const relative = path.relative(root, file).replace(/\\/g, '/');
@@ -77,6 +91,10 @@ for (const file of walk(root).filter(file => file.endsWith('.html'))) {
     html = html.replace(/<div class="demo-bar">Live-Demo · nicht veröffentlicht<\/div>/g, '');
   } else {
     html = setRobots(html, 'noindex,nofollow,noarchive');
+  }
+  if (route) {
+    html = addLocalAnalytics(html);
+    html = addNetworkAnalytics(html);
   }
   fs.writeFileSync(file, html);
 }
@@ -92,4 +110,4 @@ fs.writeFileSync(path.join(root, 'sitemap.xml'), sitemap);
 const llms = `# Sponsor a Young Fan / Football200\n\nStatus: ${canIndex ? 'public production release' : 'non-indexed staging/release gate'}\nMarket: Germany\nCategory: community and lower-league football\nPrimary audience: football clubs\n\n## Product\nSponsor a Young Fan helps clubs gain local sponsors and young fans with low administrative burden. Local companies sponsor programme places at a fixed EUR 99 per child per season. Sponsorship levels are 1, 3, 5 or 10 children. A club can release at most 200 sponsored places per season.\n\nChildren apply online or through participating schools. The child is the central participant. Parent or guardian confirmation follows selection. Real minor-data flows remain subject to the production legal and safeguarding gate.\n\n## Main public routes\n${publicRoutes.map(([, route]) => `- ${base}${route}`).join('\n')}\n\n## Product separation\nRunYourEvent is a separate optional service for volunteer and matchday support. It is not Football200/Sponsor a Young Fan.\n`;
 fs.writeFileSync(path.join(root, 'llms.txt'), llms);
 
-console.log(JSON.stringify({ env, releaseEnabled, indexingEnabled, legalApproved, canIndex, publicPages: publicRoutes.length }));
+console.log(JSON.stringify({ env, releaseEnabled, indexingEnabled, legalApproved, canIndex, analyticsApproved, analyticsConsentReady, analyticsNetworkEnabled, publicPages: publicRoutes.length }));

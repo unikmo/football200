@@ -3,9 +3,10 @@ const { getDocument, createDocument, updateDocument } = require('../_lib/firebas
 const { createWrite, updateFieldsWrite, commitWrites } = require('../_lib/firestore-atomic');
 const { sendJson } = require('../_lib/http');
 const { PROGRAMME } = require('../_lib/programme');
-const { verifyWebhookSignature, readRawBody } = require('../_lib/stripe');
+const { verifyWebhookSignature, readRawBody, assertStripeEventMode } = require('../_lib/stripe');
 const { sendCertificateEmail } = require('../_lib/email');
 const { deploymentOrigin } = require('../_lib/origin');
+const { writeAllowed, sourceTag } = require('../_lib/release');
 
 function certificateIdForSession(sessionId) { return crypto.createHash('sha256').update(String(sessionId)).digest('hex').slice(0, 32); }
 
@@ -14,7 +15,7 @@ async function fulfilFamilyPlus(session) {
   if (existing) return { idempotent: true, order: existing };
   if (String(session.currency || '').toLowerCase() !== 'eur' || Number(session.amount_total || 0) !== 2500) throw Object.assign(new Error('Family Plus amount mismatch'), { code: 'STRIPE_AMOUNT_MISMATCH' });
   const now = new Date().toISOString();
-  const order = { stripeSessionId: session.id, stripePaymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : '', paymentStatus: 'paid', currency: 'EUR', amount: 25, passReference: String(session.metadata?.pass_reference || ''), email: session.customer_details?.email || session.customer_email || '', source: 'stripe-preview', createdAt: now, paidAt: now };
+  const order = { stripeSessionId: session.id, stripePaymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : '', paymentStatus: 'paid', currency: 'EUR', amount: 25, passReference: String(session.metadata?.pass_reference || ''), email: session.customer_details?.email || session.customer_email || '', source: sourceTag('stripe'), createdAt: now, paidAt: now };
   await createDocument('family_plus_orders', order, session.id);
   await createDocument('operations_events', { type: 'family_plus.paid', stripeSessionId: session.id, passReference: order.passReference, amount: 25, createdAt: now });
   return { idempotent: false, order };
@@ -34,7 +35,7 @@ async function fulfilPaidSession(session, req) {
   const now = new Date().toISOString(), certId = certificateIdForSession(session.id), customerEmail = session.customer_details?.email || session.customer_email || '';
   const orderNumber = `F200-${String(club.season || 'SEASON').replace(/[^0-9A-Za-z]/g, '')}-${String(session.id).slice(-8).toUpperCase()}`;
   const publicListingConsent = String(m.public_listing_consent || '').toLowerCase() === 'true';
-  const order = { orderNumber, stripeSessionId: session.id, stripePaymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : '', paymentStatus: 'paid', currency: 'EUR', amount: tier.amount, children: tier.children, level: m.tier, levelName: tier.name, sponsorName: m.company || '', company: m.company || '', city: m.city || '', website: m.website || '', publicListingConsent, publicListingApproved: false, contactName: m.contact_name || '', email: customerEmail, clubId: club.id, clubName: club.name || '', season: club.season || '', certificateId: certId, certificateStatus: 'generated', source: 'stripe-preview', createdAt: now, paidAt: now };
+  const order = { orderNumber, stripeSessionId: session.id, stripePaymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : '', paymentStatus: 'paid', currency: 'EUR', amount: tier.amount, children: tier.children, level: m.tier, levelName: tier.name, sponsorName: m.company || '', company: m.company || '', city: m.city || '', website: m.website || '', publicListingConsent, publicListingApproved: false, contactName: m.contact_name || '', email: customerEmail, clubId: club.id, clubName: club.name || '', season: club.season || '', certificateId: certId, certificateStatus: 'generated', source: sourceTag('stripe'), createdAt: now, paidAt: now };
   const certificate = { sponsorshipId: session.id, orderNumber, sponsorName: order.sponsorName, company: order.company, city: order.city, recipientEmail: customerEmail, clubId: club.id, clubName: order.clubName, season: order.season, level: order.level, levelName: order.levelName, children: order.children, status: 'generated', deliveryStatus: 'pending', generatedAt: now, createdAt: now, updatedAt: now };
 
   try { await commitWrites([updateFieldsWrite('clubs', club.id, { sponsoredPlaces: sponsored + tier.children, updatedAt: now }, club._updateTime), createWrite('sponsorships', session.id, order), createWrite('certificates', certId, certificate)]); }
@@ -43,7 +44,7 @@ async function fulfilPaidSession(session, req) {
 
   const certificateUrl = `${deploymentOrigin(req)}/zertifikat.html?id=${encodeURIComponent(certId)}`;
   try {
-    const delivery = await sendCertificateEmail({ to: customerEmail, company: order.company, clubName: order.clubName, tierName: tier.name, certificateUrl });
+    const delivery = await sendCertificateEmail({ to: customerEmail, company: order.company, clubName: order.clubName, tierName: tier.name, certificateUrl, idempotencyKey: `football200-certificate-${certId}` });
     if (delivery.ok) { await updateDocument('certificates', certId, { status: 'sent', deliveryStatus: 'sent', sentAt: new Date().toISOString(), updatedAt: new Date().toISOString(), emailProviderId: delivery.id }); await updateDocument('sponsorships', session.id, { certificateStatus: 'sent' }); await createDocument('operations_events', { type: 'certificate.sent', certificateId: certId, sponsorshipId: session.id, createdAt: new Date().toISOString() }); }
     else await updateDocument('certificates', certId, { deliveryStatus: 'pending_configuration', updatedAt: new Date().toISOString() });
   } catch (error) { await updateDocument('certificates', certId, { status: 'failed', deliveryStatus: 'failed', lastError: error.code || 'EMAIL_DELIVERY_FAILED', updatedAt: new Date().toISOString() }).catch(() => null); await updateDocument('sponsorships', session.id, { certificateStatus: 'failed' }).catch(() => null); }
@@ -52,12 +53,12 @@ async function fulfilPaidSession(session, req) {
 
 async function handler(req, res) {
   if (req.method !== 'POST') return sendJson(res, 405, { ok: false, error: 'METHOD_NOT_ALLOWED' });
-  if (process.env.VERCEL_ENV !== 'preview' && process.env.NODE_ENV !== 'test') return sendJson(res, 403, { ok: false, error: 'PREVIEW_ONLY' });
+  if (!writeAllowed('payment')) return sendJson(res, 403, { ok: false, error: 'RELEASE_GATE_BLOCKED' });
   try {
     const raw = await readRawBody(req), secret = String(process.env.STRIPE_WEBHOOK_SECRET || '').trim();
     if (!verifyWebhookSignature(raw, req.headers['stripe-signature'], secret)) return sendJson(res, 400, { ok: false, error: 'INVALID_STRIPE_SIGNATURE' });
     const event = JSON.parse(raw);
-    if (event.livemode === true) return sendJson(res, 400, { ok: false, error: 'LIVE_STRIPE_EVENT_BLOCKED' });
+    assertStripeEventMode(event);
     const session = event.data?.object;
     const relevant = event.type === 'checkout.session.completed' || event.type === 'checkout.session.async_payment_succeeded';
     if (relevant && session?.object === 'checkout.session' && session.payment_status === 'paid') {
