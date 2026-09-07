@@ -1,27 +1,33 @@
-name: Firebase Preview CI
+name: Football200 Preview CI
 
 on:
   pull_request:
     paths:
       - 'api/**'
       - 'tests/**'
+      - 'scripts/**'
       - 'package.json'
-      - 'script.js'
+      - 'vercel.json'
+      - '**/*.html'
       - '.github/workflows/firebase-preview-ci.yml'
   push:
     branches:
       - firebase-backend-preview
+      - firebase-premium-preview
+      - admin-operations-preview
+      - sponsor-checkout-preview
+      - programme-completion-preview
 
 permissions:
   contents: read
 
 jobs:
-  test:
+  verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm test
+      - run: npm run verify
