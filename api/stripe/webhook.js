@@ -5,6 +5,7 @@ const { sendJson } = require('../_lib/http');
 const { PROGRAMME } = require('../_lib/programme');
 const { verifyWebhookSignature, readRawBody } = require('../_lib/stripe');
 const { sendCertificateEmail } = require('../_lib/email');
+const { deploymentOrigin } = require('../_lib/origin');
 
 function certificateIdForSession(sessionId) { return crypto.createHash('sha256').update(String(sessionId)).digest('hex').slice(0, 32); }
 
@@ -40,8 +41,7 @@ async function fulfilPaidSession(session, req) {
   catch (error) { const after = await getDocument('sponsorships', session.id).catch(() => null); if (after) return { idempotent: true, order: after }; throw error; }
   await createDocument('operations_events', { type: 'sponsorship.paid', sponsorshipId: session.id, orderNumber, clubId: club.id, children: tier.children, amount: tier.amount, createdAt: now });
 
-  const proto = req.headers['x-forwarded-proto'] || 'https', host = req.headers['x-forwarded-host'] || req.headers.host;
-  const certificateUrl = `${proto}://${host}/zertifikat.html?id=${encodeURIComponent(certId)}`;
+  const certificateUrl = `${deploymentOrigin(req)}/zertifikat.html?id=${encodeURIComponent(certId)}`;
   try {
     const delivery = await sendCertificateEmail({ to: customerEmail, company: order.company, clubName: order.clubName, tierName: tier.name, certificateUrl });
     if (delivery.ok) { await updateDocument('certificates', certId, { status: 'sent', deliveryStatus: 'sent', sentAt: new Date().toISOString(), updatedAt: new Date().toISOString(), emailProviderId: delivery.id }); await updateDocument('sponsorships', session.id, { certificateStatus: 'sent' }); await createDocument('operations_events', { type: 'certificate.sent', certificateId: certId, sponsorshipId: session.id, createdAt: new Date().toISOString() }); }
